@@ -1,0 +1,39 @@
+{
+  "name": "openzeppelin-network",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "scripts": {
+    "compile": "rm -rf lib && tsc",
+    "watch": "tsc -w",
+    "lint": "tsc --noEmit && eslint '*/**/*.{js,ts}' --quiet --fix",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OpenZeppelin/openzeppelin-network.js.git"
+  },
+  "keywords": [
+    "web3",
+    "ethereum"
+  ],
+  "author": "igor@zeppelin.solutions",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/OpenZeppelin/openzeppelin-network.js/issues"
+  },
+  "homepage": "https://github.com/OpenZeppelin/openzeppelin-network.js#readme",
+  "devDependencies": {
+    "@types/web3": "^1.0.18",
+    "@typescript-eslint/eslint-plugin": "^1.9.0",
+    "@typescript-eslint/parser": "^1.9.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.3.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "prettier": "^1.18.2",
+    "typescript": "^3.5.1"
+  },
+  "dependencies": {
+    "web3": "^1.0.0-beta.37"
+  }
+}

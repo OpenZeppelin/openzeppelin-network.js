@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "pretty": true,
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "target": "es6",
+    "checkJs": false,
+    "strict": false,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "outDir": "./lib",
+    "allowJs": false,
+    "noEmitOnError": true,
+    "declaration": true,
+    "sourceMap": true,
+    "lib": [
+      "es2017",
+      "dom"
+    ]
+  },
+  "include": [
+    "./src"
+  ],
+  "exclude": [
+     "node_modules",
+  ]
+}
