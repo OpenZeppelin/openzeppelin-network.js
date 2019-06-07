@@ -1,5 +1,5 @@
-import Web3 from "web3";
-import { Provider } from "web3/providers";
+import Web3 from 'web3';
+import { Provider } from 'web3/providers';
 
 declare global {
   interface Window {
@@ -27,7 +27,7 @@ export default class Web3Context {
 export async function getInjectedWeb3(): Promise<Web3Context> {
   // Detect whether the current browser is ethereum-compatible,
   // and return null if it is not
-  if (typeof window.ethereum === "undefined") {
+  if (typeof window.ethereum === 'undefined') {
     return null;
   }
   // Request authentication
