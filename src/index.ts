@@ -1,3 +1,3 @@
-import { fromInjected, fromConnection } from './context/Web3Context';
+import { Web3Context, fromInjected, fromConnection } from './context/Web3Context';
 
-export { fromInjected, fromConnection };
+export { Web3Context, fromInjected, fromConnection };

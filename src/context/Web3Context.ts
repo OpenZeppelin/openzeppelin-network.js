@@ -2,38 +2,73 @@ import Web3 from 'web3';
 import { Provider } from 'web3/providers';
 import { EventEmitter } from 'events';
 
+import { getNetworkName } from '../util/network';
 declare global {
   interface Window {
     ethereum: Provider;
   }
 }
 
-export default class Web3Context extends EventEmitter {
+export class Web3Context extends EventEmitter {
   public connected: boolean;
   public accounts: string[] | null;
   public networkId: number | null;
   public lib: Web3;
 
+  public static NetworkIdChangedEventName = 'NetworkIdChanged';
+  public static AccountsChangedEventName = 'AccountsChanged';
+  public static ConnectionChangedEventName = 'ConnectionChanged';
+
   private interval: NodeJS.Timeout;
 
-  public constructor(provider: Provider | string) {
+  public constructor(provider: Provider) {
     super();
 
     this.lib = new Web3(provider);
 
-    // start poll to detect web3 provider state change
-    this.interval = setInterval(this.poll, 100);
+    this.startPoll();
   }
 
-  private async poll(): Promise<void> {
-    try {
-      // get the current network ID
-      const newNetworkId = await this.lib.eth.net.getId();
-      // get the accounts
-      const newAccounts = await this.lib.eth.getAccounts();
-    } catch (e) {
-      // provider methods fail so we have to update the state and fire the events
-      // log error here
+  public startPoll(): void {
+    const poll = async (): Promise<void> => {
+      try {
+        // get the current network ID
+        const newNetworkId = await this.lib.eth.net.getId();
+        this.updateValueAndFireEvent(newNetworkId, 'networkId', Web3Context.NetworkIdChangedEventName, (): any[] => [
+          getNetworkName(this.networkId),
+        ]);
+        // get the accounts
+        const newAccounts = await this.lib.eth.getAccounts();
+        this.updateValueAndFireEvent(newAccounts, 'accounts', Web3Context.AccountsChangedEventName);
+        // if web3 provider calls are success then we are connected
+        this.updateValueAndFireEvent(true, 'connected', Web3Context.ConnectionChangedEventName);
+      } catch (e) {
+        // provider methods fail so we have to update the state and fire the events
+        this.updateValueAndFireEvent(false, 'connected', Web3Context.ConnectionChangedEventName);
+        this.updateValueAndFireEvent(null, 'networkId', Web3Context.NetworkIdChangedEventName, (): any[] => [
+          this.networkId,
+          getNetworkName(this.networkId),
+        ]);
+        this.updateValueAndFireEvent(null, 'accounts', Web3Context.AccountsChangedEventName);
+        // log error here
+        console.log(e);
+      }
+      this.interval = setTimeout(poll, 1000);
+    };
+
+    // start poll to detect web3 provider state change
+    this.interval = setTimeout(poll, 1000);
+  }
+
+  private updateValueAndFireEvent<T>(
+    newValue: T,
+    property: string,
+    eventName: string,
+    getArgs: Function = (): any[] => [],
+  ): void {
+    if (newValue !== this[property]) {
+      this[property] = newValue;
+      this.emit(eventName, this[property], ...getArgs());
     }
   }
 
@@ -54,14 +89,6 @@ export default class Web3Context extends EventEmitter {
       });
     } else return Promise.reject(new Error("Web3 provider doesn't support send method"));
   }
-
-  public async startPoll(): Promise<void> {}
-
-  public onAccountsChanged(callback: (accounts: string[] | null) => void) {}
-
-  public onNetworkChanged(callback: (networkId: number | null) => void) {}
-
-  public onConnectionChanged(callback: (connected: boolean) => void) {}
 
   public getProviderName(): string {
     if (!this.lib) return 'unknown';
@@ -91,7 +118,7 @@ export default class Web3Context extends EventEmitter {
 }
 
 export function fromConnection(connection: string): Web3Context {
-  return new Web3Context(connection);
+  return new Web3Context(new Web3(connection).currentProvider);
 }
 
 export function fromInjected(): Web3Context {
@@ -99,6 +126,13 @@ export function fromInjected(): Web3Context {
   // and return null if it is not
   if (typeof window.ethereum === 'undefined') {
     return null;
+  }
+
+  const injected = window.ethereum as any;
+
+  // disable auto refresh if possible
+  if (injected.autoRefreshOnNetworkChange) {
+    injected.autoRefreshOnNetworkChange = false;
   }
 
   return new Web3Context(window.ethereum);
