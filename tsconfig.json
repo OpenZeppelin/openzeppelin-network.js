@@ -3,7 +3,7 @@
     "pretty": true,
     "module": "commonjs",
     "moduleResolution": "Node",
-    "target": "es6",
+    "target": "es5",
     "checkJs": false,
     "strict": false,
     "resolveJsonModule": true,

@@ -17,7 +17,7 @@
     "web3",
     "ethereum"
   ],
-  "author": "igor@zeppelin.solutions",
+  "author": "Igor Yalovoy <igor@zeppelin.solutions>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/OpenZeppelin/openzeppelin-network.js/issues"
