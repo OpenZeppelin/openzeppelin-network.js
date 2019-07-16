@@ -7,7 +7,7 @@
     "compile": "rm -rf lib && tsc",
     "watch": "tsc -w",
     "lint": "tsc --noEmit && eslint '*/**/*.{js,ts}' --quiet --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --verbose"
   },
   "repository": {
     "type": "git",
@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/OpenZeppelin/openzeppelin-network.js#readme",
   "devDependencies": {
+    "@types/jest": "^24.0.15",
     "@types/web3": "^1.0.18",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@typescript-eslint/parser": "^1.9.0",
@@ -31,7 +32,9 @@
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^2.4.0",
+    "jest": "^24.8.0",
     "prettier": "^1.18.2",
+    "ts-jest": "^24.0.2",
     "typescript": "^3.4.5"
   },
   "dependencies": {
@@ -39,7 +42,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "npm run lint && npm run test"
     }
   }
 }

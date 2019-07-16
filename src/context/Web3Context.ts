@@ -9,10 +9,11 @@ declare global {
   }
 }
 
-export class Web3Context extends EventEmitter {
+export default class Web3Context extends EventEmitter {
   public connected: boolean;
   public accounts: string[] | null;
   public networkId: number | null;
+  public networkName: string | null;
   public lib: Web3;
 
   public static NetworkIdChangedEventName = 'NetworkIdChanged';
@@ -26,49 +27,54 @@ export class Web3Context extends EventEmitter {
 
     this.lib = new Web3(provider);
 
-    this.startPoll();
+    this.interval = setTimeout(this.poll.bind(this), 100);
   }
 
-  public startPoll(): void {
-    const poll = async (): Promise<void> => {
-      try {
-        // get the current network ID
-        const newNetworkId = await this.lib.eth.net.getId();
-        this.updateValueAndFireEvent(newNetworkId, 'networkId', Web3Context.NetworkIdChangedEventName, (): any[] => [
-          getNetworkName(this.networkId),
-        ]);
-        // get the accounts
-        const newAccounts = await this.lib.eth.getAccounts();
-        this.updateValueAndFireEvent(newAccounts, 'accounts', Web3Context.AccountsChangedEventName);
-        // if web3 provider calls are success then we are connected
-        this.updateValueAndFireEvent(true, 'connected', Web3Context.ConnectionChangedEventName);
-      } catch (e) {
-        // provider methods fail so we have to update the state and fire the events
-        this.updateValueAndFireEvent(false, 'connected', Web3Context.ConnectionChangedEventName);
-        this.updateValueAndFireEvent(null, 'networkId', Web3Context.NetworkIdChangedEventName, (): any[] => [
-          this.networkId,
-          getNetworkName(this.networkId),
-        ]);
-        this.updateValueAndFireEvent(null, 'accounts', Web3Context.AccountsChangedEventName);
-        // log error here
-        console.log(e);
-      }
-      this.interval = setTimeout(poll, 1000);
-    };
-
-    // start poll to detect web3 provider state change
-    this.interval = setTimeout(poll, 1000);
+  public async poll(): Promise<void> {
+    const networkIdName = 'networkId';
+    const accountsName = 'accounts';
+    const connectedName = 'connected';
+    // getting deep here
+    const networkNameName = 'networkName';
+    try {
+      // get the current network ID
+      console.log('get netw');
+      const newNetworkId = await this.lib.eth.net.getId();
+      console.log(newNetworkId);
+      const newNetworkName = getNetworkName(newNetworkId);
+      this.updateValueAndFireEvent(newNetworkId, networkIdName, Web3Context.NetworkIdChangedEventName, (): any[] => [
+        newNetworkName,
+      ]);
+      this.updateValueAndFireEvent(newNetworkName, networkNameName);
+      // get the accounts
+      const newAccounts = await this.lib.eth.getAccounts();
+      this.updateValueAndFireEvent(newAccounts, accountsName, Web3Context.AccountsChangedEventName);
+      // if web3 provider calls are success then we are connected
+      this.updateValueAndFireEvent(true, connectedName, Web3Context.ConnectionChangedEventName);
+    } catch (e) {
+      console.log('gotcah');
+      // provider methods fail so we have to update the state and fire the events
+      this.updateValueAndFireEvent(false, connectedName, Web3Context.ConnectionChangedEventName);
+      this.updateValueAndFireEvent(null, networkIdName, Web3Context.NetworkIdChangedEventName, (): any[] => [null]);
+      this.updateValueAndFireEvent(null, networkNameName);
+      this.updateValueAndFireEvent(null, accountsName, Web3Context.AccountsChangedEventName);
+      // log error here
+      console.log(e);
+    } finally {
+      console.log('setteimout');
+      this.interval = setTimeout(this.poll.bind(this), 100);
+    }
   }
 
   private updateValueAndFireEvent<T>(
     newValue: T,
     property: string,
-    eventName: string,
+    eventName: string = null,
     getArgs: Function = (): any[] => [],
   ): void {
     if (newValue !== this[property]) {
       this[property] = newValue;
-      this.emit(eventName, this[property], ...getArgs());
+      if (eventName) this.emit(eventName, this[property], ...getArgs());
     }
   }
 
@@ -115,25 +121,4 @@ export class Web3Context extends EventEmitter {
 
     return 'unknown';
   }
-}
-
-export function fromConnection(connection: string): Web3Context {
-  return new Web3Context(new Web3(connection).currentProvider);
-}
-
-export function fromInjected(): Web3Context {
-  // Detect whether the current browser is ethereum-compatible,
-  // and return null if it is not
-  if (typeof window.ethereum === 'undefined') {
-    return null;
-  }
-
-  const injected = window.ethereum as any;
-
-  // disable auto refresh if possible
-  if (injected.autoRefreshOnNetworkChange) {
-    injected.autoRefreshOnNetworkChange = false;
-  }
-
-  return new Web3Context(window.ethereum);
 }
