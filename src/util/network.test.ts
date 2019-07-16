@@ -1,9 +1,5 @@
 import { getNetworkName } from './network';
 
-test('basic', (): void => {
-  expect(2 + 2).toBe(4);
-});
-
 describe('getNetworkName function', (): void => {
   it('return proper network names', (): void => {
     expect(getNetworkName(1)).toBe('Main');

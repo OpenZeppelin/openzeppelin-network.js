@@ -1,5 +1,3 @@
-import Web3 from 'web3';
-import { Provider } from 'web3/providers';
 import { mocked } from 'ts-jest/utils';
 
 import { fromConnection, fromInjected } from './factory';
@@ -31,5 +29,13 @@ describe('fromInjected function', (): void => {
     expect(mockedWeb3Context).toHaveBeenCalledWith(window.ethereum);
     const web3ContextInstance = mocked(Web3Context).mock.instances[0];
     expect(web3ContextInstance.poll).toHaveBeenCalled();
+
+    delete window.ethereum;
+  });
+
+  it('fails if there is no injected provider', async (): Promise<void> => {
+    const context = await fromInjected();
+
+    expect(context).toBeNull();
   });
 });

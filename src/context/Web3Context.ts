@@ -14,7 +14,7 @@ export default class Web3Context extends EventEmitter {
   public accounts: string[] | null;
   public networkId: number | null;
   public networkName: string | null;
-  public lib: Web3;
+  public readonly lib: Web3;
 
   public static NetworkIdChangedEventName = 'NetworkIdChanged';
   public static AccountsChangedEventName = 'AccountsChanged';
