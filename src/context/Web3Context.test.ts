@@ -1,6 +1,4 @@
 import Web3 from 'web3';
-import { Provider } from 'web3/providers';
-import { mocked } from 'ts-jest/utils';
 
 import Web3Context from './Web3Context';
 
@@ -18,9 +16,28 @@ describe('Web3Context', (): void => {
     it('creates Web3Context', (): void => {
       expect(context).not.toBeNull();
       expect(context.lib).not.toBeNull();
+    });
+  });
+
+  describe('startPoll method', (): void => {
+    it('starts poll', (): void => {
+      context.startPoll();
 
       expect(setTimeout).toHaveBeenCalledTimes(1);
       expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
+
+      expect(context.interval).toBeTruthy();
+    });
+  });
+
+  describe('stopPoll method', (): void => {
+    it('stops poll', (): void => {
+      context.interval = 14322;
+
+      context.stopPoll();
+
+      expect(clearTimeout).toHaveBeenCalledTimes(1);
+      expect(clearTimeout).toHaveBeenLastCalledWith(context.interval);
     });
   });
 

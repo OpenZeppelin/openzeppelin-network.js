@@ -16,6 +16,7 @@ describe('fromConnection function', (): void => {
     expect(mockedWeb3Context).toHaveBeenCalled();
     const web3ContextInstance = mocked(Web3Context).mock.instances[0];
     expect(web3ContextInstance.poll).toHaveBeenCalled();
+    expect(web3ContextInstance.startPoll).toHaveBeenCalled();
   });
 });
 
@@ -29,6 +30,7 @@ describe('fromInjected function', (): void => {
     expect(mockedWeb3Context).toHaveBeenCalledWith(window.ethereum);
     const web3ContextInstance = mocked(Web3Context).mock.instances[0];
     expect(web3ContextInstance.poll).toHaveBeenCalled();
+    expect(web3ContextInstance.startPoll).toHaveBeenCalled();
 
     delete window.ethereum;
   });

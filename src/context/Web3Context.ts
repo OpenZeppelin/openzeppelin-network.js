@@ -26,8 +26,14 @@ export default class Web3Context extends EventEmitter {
     super();
 
     this.lib = new Web3(provider);
+  }
 
+  public startPoll(): void {
     this.interval = setTimeout(this.poll.bind(this), 100);
+  }
+
+  public stopPoll(): void {
+    clearTimeout(this.interval);
   }
 
   public async poll(): Promise<void> {
@@ -38,9 +44,7 @@ export default class Web3Context extends EventEmitter {
     const networkNameName = 'networkName';
     try {
       // get the current network ID
-      console.log('get netw');
       const newNetworkId = await this.lib.eth.net.getId();
-      console.log(newNetworkId);
       const newNetworkName = getNetworkName(newNetworkId);
       this.updateValueAndFireEvent(newNetworkId, networkIdName, Web3Context.NetworkIdChangedEventName, (): any[] => [
         newNetworkName,
@@ -52,7 +56,6 @@ export default class Web3Context extends EventEmitter {
       // if web3 provider calls are success then we are connected
       this.updateValueAndFireEvent(true, connectedName, Web3Context.ConnectionChangedEventName);
     } catch (e) {
-      console.log('gotcah');
       // provider methods fail so we have to update the state and fire the events
       this.updateValueAndFireEvent(false, connectedName, Web3Context.ConnectionChangedEventName);
       this.updateValueAndFireEvent(null, networkIdName, Web3Context.NetworkIdChangedEventName, (): any[] => [null]);
@@ -61,7 +64,6 @@ export default class Web3Context extends EventEmitter {
       // log error here
       console.log(e);
     } finally {
-      console.log('setteimout');
       this.interval = setTimeout(this.poll.bind(this), 100);
     }
   }

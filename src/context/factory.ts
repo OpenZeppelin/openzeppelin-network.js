@@ -3,7 +3,9 @@ import Web3Context from './Web3Context';
 
 export async function fromConnection(connection: string): Promise<Web3Context> {
   const context = new Web3Context(new Web3(connection).currentProvider);
+  context.startPoll();
   await context.poll();
+
   return context;
 }
 
@@ -22,6 +24,7 @@ export async function fromInjected(): Promise<Web3Context> {
   }
 
   const context = new Web3Context(window.ethereum);
+  context.startPoll();
   await context.poll();
 
   return context;
