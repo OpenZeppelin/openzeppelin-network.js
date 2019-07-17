@@ -1,4 +1,4 @@
-export function getNetworkName(networkId): string {
+export function getNetworkName(networkId: number): string {
   switch (networkId) {
     //  0: Olympic, Ethereum public pre-release PoW testnet
     case 0:

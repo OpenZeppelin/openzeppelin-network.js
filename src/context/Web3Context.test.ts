@@ -1,14 +1,16 @@
 import Web3 from 'web3';
 
 import Web3Context from './Web3Context';
+import sleep from '../util/sleep';
 
 const localConnection = 'http://localhost:7545';
 const accounts = ['0x48d21Dc6BBF18288520E9384aA505015c26ea43C'];
 let context;
 
 beforeEach((): void => {
+  jest.resetAllMocks();
   jest.useFakeTimers();
-  context = new Web3Context(new Web3(localConnection).currentProvider);
+  context = new Web3Context(new Web3(localConnection).currentProvider, { timeout: 100 });
 });
 
 describe('Web3Context', (): void => {
@@ -23,9 +25,8 @@ describe('Web3Context', (): void => {
     it('starts poll', (): void => {
       context.startPoll();
 
-      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenCalled();
       expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
-
       expect(context.interval).toBeTruthy();
     });
   });
@@ -36,8 +37,87 @@ describe('Web3Context', (): void => {
 
       context.stopPoll();
 
-      expect(clearTimeout).toHaveBeenCalledTimes(1);
+      expect(clearTimeout).toHaveBeenCalled();
       expect(clearTimeout).toHaveBeenLastCalledWith(context.interval);
+    });
+  });
+
+  describe('poll method', (): void => {
+    describe('when web3 provider is alive', (): void => {
+      it('polls fresh data', async (): Promise<void> => {
+        context.lib.eth.net.getId = jest.fn((): Promise<number> => Promise.resolve(1));
+        context.lib.eth.getAccounts = jest.fn((): Promise<string[]> => Promise.resolve(accounts));
+        context.emit = jest.fn();
+
+        await context.poll();
+
+        expect(context.lib.eth.net.getId).toHaveBeenCalled();
+        expect(context.networkId).toBe(1);
+        expect(context.networkName).toBe('Main');
+
+        expect(context.lib.eth.getAccounts).toHaveBeenCalled();
+        expect(context.accounts).toBe(accounts);
+
+        expect(context.connected).toBe(true);
+
+        expect(context.emit).toHaveBeenCalledTimes(3);
+
+        expect(setTimeout).toHaveBeenCalled();
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
+        expect(context.interval).toBeTruthy();
+      });
+    });
+    describe('when web3 provider is dead', (): void => {
+      it('updates state', async (): Promise<void> => {
+        context.lib.eth.net.getId = jest.fn((): Promise<number> => Promise.reject('nope'));
+        context.lib.eth.getAccounts = jest.fn((): Promise<string[]> => Promise.reject('nope'));
+        context.emit = jest.fn();
+
+        await context.poll();
+
+        expect(context.lib.eth.net.getId).toHaveBeenCalled();
+        expect(context.lib.eth.getAccounts).not.toHaveBeenCalled();
+
+        expect(context.networkId).toBe(null);
+        expect(context.networkName).toBe(null);
+
+        expect(context.accounts).toBe(null);
+
+        expect(context.connected).toBe(false);
+
+        expect(context.emit).toHaveBeenCalledTimes(3);
+
+        expect(setTimeout).toHaveBeenCalled();
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
+        expect(context.interval).toBeTruthy();
+      });
+    });
+    describe('when web3 provider timeouts', (): void => {
+      it('updates state', async (): Promise<void> => {
+        context.lib.eth.net.getId = jest.fn(
+          async (): Promise<number> => {
+            await sleep(100 * 1000);
+            return Promise.resolve(1);
+          },
+        );
+        context.lib.eth.getAccounts = jest.fn((): Promise<string[]> => Promise.resolve(accounts));
+        context.emit = jest.fn();
+
+        const pollPromise = context.poll();
+        jest.runOnlyPendingTimers();
+        await pollPromise;
+
+        expect(context.lib.eth.net.getId).toHaveBeenCalled();
+        expect(context.lib.eth.getAccounts).not.toHaveBeenCalled();
+        expect(context.networkId).toBe(null);
+        expect(context.networkName).toBe(null);
+
+        expect(context.accounts).toBe(null);
+
+        expect(context.connected).toBe(false);
+
+        expect(context.emit).toHaveBeenCalledTimes(3);
+      });
     });
   });
 
