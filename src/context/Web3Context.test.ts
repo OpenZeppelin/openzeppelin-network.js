@@ -123,7 +123,7 @@ describe('Web3Context', (): void => {
 
   describe('getProviderName method', (): void => {
     it('gets name of the provider', (): void => {
-      const provider = context.lib.currentProvider as any;
+      const provider = context.lib.currentProvider as ({ isMetaMask: boolean });
       provider.isMetaMask = true;
 
       const providerName = context.getProviderName();

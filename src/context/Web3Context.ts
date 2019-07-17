@@ -14,6 +14,16 @@ interface Web3ContextOptions {
   timeout: number;
 }
 
+interface ExtendedProvider extends Provider {
+  isMetaMask: boolean;
+  isTrust: boolean;
+  isGoWallet: boolean;
+  isAlphaWallet: boolean;
+  isStatus: boolean;
+  isToshi: boolean;
+  host: string;
+}
+
 // TODO: Change event to use types using conditional types
 export default class Web3Context extends EventEmitter {
   public connected: boolean;
@@ -57,9 +67,12 @@ export default class Web3Context extends EventEmitter {
       const newNetworkId = await timeout(this.lib.eth.net.getId(), this.timeout);
 
       const newNetworkName = getNetworkName(newNetworkId);
-      this.updateValueAndFireEvent(newNetworkId, networkIdName, Web3Context.NetworkIdChangedEventName, (): any[] => [
-        newNetworkName,
-      ]);
+      this.updateValueAndFireEvent(
+        newNetworkId,
+        networkIdName,
+        Web3Context.NetworkIdChangedEventName,
+        (): unknown[] => [newNetworkName],
+      );
       this.updateValueAndFireEvent(newNetworkName, networkNameName);
       // get the accounts
       const newAccounts = await timeout(this.lib.eth.getAccounts(), this.timeout);
@@ -69,7 +82,7 @@ export default class Web3Context extends EventEmitter {
     } catch (e) {
       // provider methods fail so we have to update the state and fire the events
       this.updateValueAndFireEvent(false, connectedName, Web3Context.ConnectionChangedEventName);
-      this.updateValueAndFireEvent(null, networkIdName, Web3Context.NetworkIdChangedEventName, (): any[] => [null]);
+      this.updateValueAndFireEvent(null, networkIdName, Web3Context.NetworkIdChangedEventName, (): unknown[] => [null]);
       this.updateValueAndFireEvent(null, networkNameName);
       this.updateValueAndFireEvent(null, accountsName, Web3Context.AccountsChangedEventName);
       // log error here
@@ -83,7 +96,7 @@ export default class Web3Context extends EventEmitter {
     newValue: T,
     property: string,
     eventName: string = null,
-    getArgs: Function = (): any[] => [],
+    getArgs: Function = (): unknown[] => [],
   ): void {
     if (newValue !== this[property]) {
       this[property] = newValue;
@@ -104,7 +117,8 @@ export default class Web3Context extends EventEmitter {
             resolve(response.result);
           }
         };
-        this.lib.currentProvider.send({ method: 'eth_requestAccounts' } as any, responseHandler as any);
+        const send = this.lib.currentProvider.send as Function;
+        send({ method: 'eth_requestAccounts' }, responseHandler);
       });
     } else return Promise.reject(new Error("Web3 provider doesn't support send method"));
   }
@@ -112,7 +126,7 @@ export default class Web3Context extends EventEmitter {
   public getProviderName(): string {
     if (!this.lib) return 'unknown';
 
-    const provider = this.lib.currentProvider as any;
+    const provider = this.lib.currentProvider as ExtendedProvider;
 
     if (provider.isMetaMask) return 'metamask';
 
