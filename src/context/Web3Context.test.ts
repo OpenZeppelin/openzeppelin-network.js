@@ -27,18 +27,18 @@ describe('Web3Context', (): void => {
 
       expect(setTimeout).toHaveBeenCalled();
       expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
-      expect(context.interval).toBeTruthy();
+      expect(context.pollHandle).toBeTruthy();
     });
   });
 
   describe('stopPoll method', (): void => {
     it('stops poll', (): void => {
-      context.interval = 14322;
+      context.pollHandle = 14322;
 
       context.stopPoll();
 
       expect(clearTimeout).toHaveBeenCalled();
-      expect(clearTimeout).toHaveBeenLastCalledWith(context.interval);
+      expect(clearTimeout).toHaveBeenLastCalledWith(context.pollHandle);
     });
   });
 
@@ -64,7 +64,7 @@ describe('Web3Context', (): void => {
 
         expect(setTimeout).toHaveBeenCalled();
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
-        expect(context.interval).toBeTruthy();
+        expect(context.pollHandle).toBeTruthy();
       });
     });
     describe('when web3 provider is dead', (): void => {
@@ -89,7 +89,7 @@ describe('Web3Context', (): void => {
 
         expect(setTimeout).toHaveBeenCalled();
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
-        expect(context.interval).toBeTruthy();
+        expect(context.pollHandle).toBeTruthy();
       });
     });
     describe('when web3 provider timeouts', (): void => {

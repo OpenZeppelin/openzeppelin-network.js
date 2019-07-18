@@ -10,8 +10,9 @@ declare global {
   }
 }
 
-interface Web3ContextOptions {
-  timeout: number;
+export interface Web3ContextOptions {
+  timeout?: number;
+  pollInterval?: number;
 }
 
 interface ExtendedProvider extends Provider {
@@ -26,37 +27,43 @@ interface ExtendedProvider extends Provider {
 
 // TODO: Change event to use types using conditional types
 export default class Web3Context extends EventEmitter {
-  public connected: boolean;
-  public accounts: string[] | null;
-  public networkId: number | null;
-  public networkName: string | null;
-  public readonly lib: Web3;
-  public readonly timeout: number;
-
   public static NetworkIdChangedEventName = 'NetworkIdChanged';
   public static AccountsChangedEventName = 'AccountsChanged';
   public static ConnectionChangedEventName = 'ConnectionChanged';
 
-  private interval: NodeJS.Timeout;
+  public readonly lib: Web3;
+  public readonly timeout: number;
+  public readonly pollInterval: number;
 
-  public constructor(provider: Provider, options: Web3ContextOptions = { timeout: 3000 }) {
+  public connected: boolean;
+  public accounts: string[] | null;
+  public networkId: number | null;
+  public networkName: string | null;
+
+  private pollHandle: NodeJS.Timeout;
+
+  public constructor(provider: Provider, options: Web3ContextOptions = null) {
     super();
+
+    options = Object.assign({}, { timeout: 3000, pollInterval: 100 }, options);
 
     this.lib = new Web3(provider);
     this.timeout = options.timeout;
+    this.pollInterval = options.pollInterval;
   }
 
   public startPoll(): void {
-    // TODO: polling interval should depend on kind of web3 provider
+    // TODO: polling pollHandle should depend on kind of web3 provider
     // We can query local providers often but doing the same for the network providers may create a lot of overhead
-    this.interval = setTimeout(this.poll.bind(this), 100);
+    this.pollHandle = setTimeout(this.poll.bind(this), this.pollInterval);
   }
 
   public stopPoll(): void {
-    clearTimeout(this.interval);
+    clearTimeout(this.pollHandle);
   }
 
   public async poll(): Promise<void> {
+    // TODO: Fiture out elegant way retrive property name dynamically
     const networkIdName = 'networkId';
     const accountsName = 'accounts';
     const connectedName = 'connected';
@@ -85,8 +92,8 @@ export default class Web3Context extends EventEmitter {
       this.updateValueAndFireEvent(null, networkIdName, Web3Context.NetworkIdChangedEventName, (): unknown[] => [null]);
       this.updateValueAndFireEvent(null, networkNameName);
       this.updateValueAndFireEvent(null, accountsName, Web3Context.AccountsChangedEventName);
-      // log error here
-      console.log(e);
+      // TODO: Implement throtling so we do not spam console
+      // console.log(e);
     } finally {
       this.startPoll();
     }
@@ -145,6 +152,10 @@ export default class Web3Context extends EventEmitter {
     if (provider.constructor.name === 'Web3FrameProvider') return 'parity';
 
     if (provider.host && provider.host.indexOf('infura') !== -1) return 'infura';
+
+    if (provider.host && provider.host.indexOf('localhost') !== -1) return 'localhost';
+
+    if (provider.host && provider.host.indexOf('127.0.0.1') !== -1) return 'localhost';
 
     return 'unknown';
   }

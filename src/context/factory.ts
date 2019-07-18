@@ -1,15 +1,15 @@
 import Web3 from 'web3';
-import Web3Context from './Web3Context';
+import Web3Context, { Web3ContextOptions } from './Web3Context';
 
-export async function fromConnection(connection: string): Promise<Web3Context> {
-  const context = new Web3Context(new Web3(connection).currentProvider);
+export async function fromConnection(connection: string, options: Web3ContextOptions = null): Promise<Web3Context> {
+  const context = new Web3Context(new Web3(connection).currentProvider, options);
   context.startPoll();
   await context.poll();
 
   return context;
 }
 
-export async function fromInjected(): Promise<Web3Context> {
+export async function fromInjected(options: Web3ContextOptions = null): Promise<Web3Context> {
   // Detect whether the current browser is ethereum-compatible,
   // and return null if it is not
   if (typeof window.ethereum === 'undefined') {
@@ -23,7 +23,7 @@ export async function fromInjected(): Promise<Web3Context> {
     injected.autoRefreshOnNetworkChange = false;
   }
 
-  const context = new Web3Context(window.ethereum);
+  const context = new Web3Context(window.ethereum, options);
   context.startPoll();
   await context.poll();
 
