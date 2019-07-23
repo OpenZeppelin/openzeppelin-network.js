@@ -36,10 +36,10 @@ export default class Web3Context extends EventEmitter {
 
   private pollHandle: NodeJS.Timeout;
 
-  public constructor(provider: Provider, options: Web3ContextOptions = null) {
+  public constructor(provider: Provider, options?: Web3ContextOptions) {
     super();
 
-    options = Object.assign({}, { timeout: 3000, pollInterval: 100 }, options);
+    options = Object.assign({}, { timeout: 3000, pollInterval: 500 }, options);
 
     if (!provider) throw new Error('A web3 provider has to be defined');
     this.providerName = getProviderName(provider as ExtendedProvider);
@@ -98,7 +98,7 @@ export default class Web3Context extends EventEmitter {
   private updateValueAndFireEvent<T>(
     newValue: T,
     property: string,
-    eventName: string = null,
+    eventName?: string,
     getArgs: Function = (): unknown[] => [],
   ): void {
     if (newValue !== this[property]) {

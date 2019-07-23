@@ -19,6 +19,8 @@ export default function getProviderName(provider: ExtendedProvider): string {
 
   if (provider.host && provider.host.indexOf('infura') !== -1) return 'infura';
 
+  if (provider.connection && provider.connection.url.indexOf('infura') !== -1) return 'infura';
+
   if (provider.host && provider.host.indexOf('localhost') !== -1) return 'localhost';
 
   if (provider.host && provider.host.indexOf('127.0.0.1') !== -1) return 'localhost';

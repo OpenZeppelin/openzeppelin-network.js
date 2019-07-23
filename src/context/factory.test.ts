@@ -27,7 +27,7 @@ describe('fromInjected function', (): void => {
     const context = await fromInjected();
 
     expect(context).not.toBeNull();
-    expect(mockedWeb3Context).toHaveBeenCalledWith(window.ethereum, null);
+    expect(mockedWeb3Context).toHaveBeenCalledWith(window.ethereum, undefined);
     const web3ContextInstance = mocked(Web3Context).mock.instances[0];
     expect(web3ContextInstance.poll).toHaveBeenCalled();
     expect(web3ContextInstance.startPoll).toHaveBeenCalled();

@@ -26,7 +26,7 @@ describe('Web3Context', (): void => {
       context.startPoll();
 
       expect(setTimeout).toHaveBeenCalled();
-      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
+      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 500);
       expect(context.pollHandle).toBeTruthy();
     });
   });
@@ -63,7 +63,7 @@ describe('Web3Context', (): void => {
         expect(context.emit).toHaveBeenCalledTimes(3);
 
         expect(setTimeout).toHaveBeenCalled();
-        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 500);
         expect(context.pollHandle).toBeTruthy();
       });
     });
@@ -88,7 +88,7 @@ describe('Web3Context', (): void => {
         expect(context.emit).toHaveBeenCalledTimes(3);
 
         expect(setTimeout).toHaveBeenCalled();
-        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
+        expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 500);
         expect(context.pollHandle).toBeTruthy();
       });
     });
