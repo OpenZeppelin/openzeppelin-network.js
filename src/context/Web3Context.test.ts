@@ -121,17 +121,6 @@ describe('Web3Context', (): void => {
     });
   });
 
-  describe('getProviderName method', (): void => {
-    it('gets name of the provider', (): void => {
-      const provider = context.lib.currentProvider as ({ isMetaMask: boolean });
-      provider.isMetaMask = true;
-
-      const providerName = context.getProviderName();
-
-      expect(providerName).toBe('metamask');
-    });
-  });
-
   describe('requestAuth method', (): void => {
     describe('requests auth with proper provider', (): void => {
       it('success if user approve', async (): Promise<void> => {

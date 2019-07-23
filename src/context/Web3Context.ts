@@ -3,7 +3,10 @@ import { Provider } from 'web3/providers';
 import { EventEmitter } from 'events';
 import timeout from '../util/timeout';
 
-import { getNetworkName } from '../util/network';
+import ExtendedProvider from '../interface/ExtendedProvider';
+import getNetworkName from '../util/network';
+import getProviderName from '../util/providerName';
+
 declare global {
   interface Window {
     ethereum: Provider;
@@ -15,16 +18,6 @@ export interface Web3ContextOptions {
   pollInterval?: number;
 }
 
-interface ExtendedProvider extends Provider {
-  isMetaMask: boolean;
-  isTrust: boolean;
-  isGoWallet: boolean;
-  isAlphaWallet: boolean;
-  isStatus: boolean;
-  isToshi: boolean;
-  host: string;
-}
-
 // TODO: Change event to use types using conditional types
 export default class Web3Context extends EventEmitter {
   public static NetworkIdChangedEventName = 'NetworkIdChanged';
@@ -34,6 +27,7 @@ export default class Web3Context extends EventEmitter {
   public readonly lib: Web3;
   public readonly timeout: number;
   public readonly pollInterval: number;
+  public readonly providerName: string;
 
   public connected: boolean;
   public accounts: string[] | null;
@@ -47,13 +41,15 @@ export default class Web3Context extends EventEmitter {
 
     options = Object.assign({}, { timeout: 3000, pollInterval: 100 }, options);
 
+    if (!provider) throw new Error('A web3 provider has to be defined');
+    this.providerName = getProviderName(provider as ExtendedProvider);
     this.lib = new Web3(provider);
     this.timeout = options.timeout;
     this.pollInterval = options.pollInterval;
   }
 
   public startPoll(): void {
-    // TODO: polling pollHandle should depend on kind of web3 provider
+    // TODO: polling interval should depend on kind of web3 provider
     // We can query local providers often but doing the same for the network providers may create a lot of overhead
     this.pollHandle = setTimeout(this.poll.bind(this), this.pollInterval);
   }
@@ -128,35 +124,5 @@ export default class Web3Context extends EventEmitter {
         send({ method: 'eth_requestAccounts' }, responseHandler);
       });
     } else return Promise.reject(new Error("Web3 provider doesn't support send method"));
-  }
-
-  public getProviderName(): string {
-    if (!this.lib) return 'unknown';
-
-    const provider = this.lib.currentProvider as ExtendedProvider;
-
-    if (provider.isMetaMask) return 'metamask';
-
-    if (provider.isTrust) return 'trust';
-
-    if (provider.isGoWallet) return 'goWallet';
-
-    if (provider.isAlphaWallet) return 'alphaWallet';
-
-    if (provider.isStatus) return 'status';
-
-    if (provider.isToshi) return 'coinbase';
-
-    if (provider.constructor.name === 'EthereumProvider') return 'mist';
-
-    if (provider.constructor.name === 'Web3FrameProvider') return 'parity';
-
-    if (provider.host && provider.host.indexOf('infura') !== -1) return 'infura';
-
-    if (provider.host && provider.host.indexOf('localhost') !== -1) return 'localhost';
-
-    if (provider.host && provider.host.indexOf('127.0.0.1') !== -1) return 'localhost';
-
-    return 'unknown';
   }
 }

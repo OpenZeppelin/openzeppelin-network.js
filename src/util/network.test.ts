@@ -1,4 +1,4 @@
-import { getNetworkName } from './network';
+import getNetworkName from './network';
 
 describe('getNetworkName function', (): void => {
   it('return proper network names', (): void => {

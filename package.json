@@ -1,5 +1,5 @@
 {
-  "name": "openzeppelin-network",
+  "name": "@openzeppelin/network",
   "version": "0.1.0",
   "description": "",
   "main": "./lib/index.js",
