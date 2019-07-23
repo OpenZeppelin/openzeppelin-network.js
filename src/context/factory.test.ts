@@ -1,3 +1,4 @@
+import { Provider } from 'web3/providers';
 import { mocked } from 'ts-jest/utils';
 
 import { fromConnection, fromInjected } from './factory';
@@ -22,7 +23,8 @@ describe('fromConnection function', (): void => {
 
 describe('fromInjected function', (): void => {
   it('creates Web3 context from injected provider', async (): Promise<void> => {
-    window.ethereum = {} as any;
+    const provider = {};
+    window.ethereum = provider as Provider;
 
     const context = await fromInjected();
 

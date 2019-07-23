@@ -1,6 +1,7 @@
 import { Provider } from 'web3/providers';
 
 export default interface ExtendedProvider extends Provider {
+  autoRefreshOnNetworkChange?: boolean;
   isMetaMask?: boolean;
   isTrust?: boolean;
   isGoWallet?: boolean;

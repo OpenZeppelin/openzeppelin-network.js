@@ -1,5 +1,6 @@
 import Web3 from 'web3';
 import Web3Context, { Web3ContextOptions } from './Web3Context';
+import ExtendedProvider from '../interface/ExtendedProvider';
 
 export async function fromConnection(connection: string, options?: Web3ContextOptions): Promise<Web3Context> {
   const context = new Web3Context(new Web3(connection).currentProvider, options);
@@ -16,7 +17,7 @@ export async function fromInjected(options?: Web3ContextOptions): Promise<Web3Co
     return null;
   }
 
-  const injected = window.ethereum as any;
+  const injected = window.ethereum as ExtendedProvider;
 
   // disable auto refresh if possible
   if (injected.autoRefreshOnNetworkChange) {
