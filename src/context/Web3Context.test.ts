@@ -5,12 +5,12 @@ import sleep from '../util/sleep';
 
 const localConnection = 'http://localhost:7545';
 const accounts = ['0x48d21Dc6BBF18288520E9384aA505015c26ea43C'];
-let context;
+let context: Web3Context;
 
 beforeEach((): void => {
   jest.resetAllMocks();
   jest.useFakeTimers();
-  context = new Web3Context(new Web3(localConnection).currentProvider, { timeout: 100 });
+  context = new Web3Context(new Web3(localConnection).currentProvider, { timeout: 100, pollInterval: 500 });
 });
 
 describe('Web3Context', (): void => {
@@ -27,17 +27,20 @@ describe('Web3Context', (): void => {
 
       expect(setTimeout).toHaveBeenCalled();
       expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 500);
+      // @ts-ignore
       expect(context.pollHandle).toBeTruthy();
     });
   });
 
   describe('stopPoll method', (): void => {
     it('stops poll', (): void => {
+      // @ts-ignore
       context.pollHandle = 14322;
 
       context.stopPoll();
 
       expect(clearTimeout).toHaveBeenCalled();
+      // @ts-ignore
       expect(clearTimeout).toHaveBeenLastCalledWith(context.pollHandle);
     });
   });
@@ -64,6 +67,7 @@ describe('Web3Context', (): void => {
 
         expect(setTimeout).toHaveBeenCalled();
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 500);
+        // @ts-ignore
         expect(context.pollHandle).toBeTruthy();
       });
     });
@@ -85,10 +89,11 @@ describe('Web3Context', (): void => {
 
         expect(context.connected).toBe(false);
 
-        expect(context.emit).toHaveBeenCalledTimes(3);
+        expect(context.emit).toHaveBeenCalledTimes(1);
 
         expect(setTimeout).toHaveBeenCalled();
         expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 500);
+        // @ts-ignore
         expect(context.pollHandle).toBeTruthy();
       });
     });
@@ -116,7 +121,7 @@ describe('Web3Context', (): void => {
 
         expect(context.connected).toBe(false);
 
-        expect(context.emit).toHaveBeenCalledTimes(3);
+        expect(context.emit).toHaveBeenCalledTimes(1);
       });
     });
   });
@@ -124,9 +129,11 @@ describe('Web3Context', (): void => {
   describe('requestAuth method', (): void => {
     describe('requests auth with proper provider', (): void => {
       it('success if user approve', async (): Promise<void> => {
-        context.lib.currentProvider.send = jest.fn((req, res): void => {
+        const send = jest.fn((req, res): void => {
           res(null, { result: accounts });
         });
+
+        context.lib.currentProvider.send = send;
 
         const retVal = await context.requestAuth();
 
@@ -134,9 +141,10 @@ describe('Web3Context', (): void => {
       });
 
       it('throws if user reject', async (): Promise<void> => {
-        context.lib.currentProvider.send = jest.fn((req, res): void => {
+        const send = jest.fn((req, res): void => {
           res({ error: 'nope' }, {});
         });
+        context.lib.currentProvider.send = send;
 
         await expect(context.requestAuth()).rejects.toMatchObject({
           error: 'nope',
