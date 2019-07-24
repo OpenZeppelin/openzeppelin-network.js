@@ -95,9 +95,9 @@ export default class Web3Context extends EventEmitter {
     }
   }
 
-  private updateValueAndFireEvent<T>(
-    newValue: T,
-    property: string,
+  private updateValueAndFireEvent<P extends keyof this>(
+    newValue: this[P],
+    property: P,
     eventName?: string,
     getArgs: Function = (): unknown[] => [],
   ): void {
