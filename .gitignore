@@ -2,4 +2,3 @@ node_modules
 .zos.session
 zos.*
 build
-/lib

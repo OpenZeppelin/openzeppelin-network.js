@@ -1,5 +1,5 @@
 // TODO: Add React and React Hook linting rules
-import { useState, useEffect, EffectCallback, DependencyList } from 'react';
+import { useState, useEffect, DependencyList } from 'react';
 
 import Web3Context, { Web3ContextOptions } from '../context/Web3Context';
 import { fromInjected, fromConnection } from '../context/factory';
