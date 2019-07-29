@@ -2,6 +2,7 @@ import Web3 from 'web3';
 import { Provider } from 'web3/providers';
 import { EventEmitter } from 'events';
 import timeout from '../util/timeout';
+import { GSNProvider } from '@openzeppelin/gsn-provider';
 
 import ExtendedProvider from '../interface/ExtendedProvider';
 import getNetworkName from '../util/network';
@@ -16,6 +17,7 @@ declare global {
 export interface Web3ContextOptions {
   timeout: number;
   pollInterval: number;
+  enableGSN: boolean;
 }
 
 // TODO: Change event to use types using conditional types
@@ -39,9 +41,13 @@ export default class Web3Context extends EventEmitter {
   public constructor(provider: Provider, options?: Web3ContextOptions) {
     super();
 
-    options = Object.assign({}, { timeout: 3000, pollInterval: 500 }, options);
+    options = Object.assign({}, { timeout: 3000, pollInterval: 500, enableGSN: false }, options);
 
     if (!provider) throw new Error('A web3 provider has to be defined');
+
+    if (options.enableGSN) {
+      provider = new GSNProvider(provider, { useGSN: true });
+    }
 
     this.providerName = getProviderName(provider as ExtendedProvider);
     this.lib = new Web3(provider);
