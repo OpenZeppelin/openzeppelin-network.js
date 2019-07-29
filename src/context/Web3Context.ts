@@ -17,7 +17,7 @@ declare global {
 export interface Web3ContextOptions {
   timeout: number;
   pollInterval: number;
-  enableGSN: boolean;
+  gsn: boolean | object;
 }
 
 // TODO: Change event to use types using conditional types
@@ -41,12 +41,13 @@ export default class Web3Context extends EventEmitter {
   public constructor(provider: Provider, options?: Web3ContextOptions) {
     super();
 
-    options = Object.assign({}, { timeout: 3000, pollInterval: 500, enableGSN: false }, options);
+    options = Object.assign({}, { timeout: 3000, pollInterval: 500, gsn: false }, options);
 
     if (!provider) throw new Error('A web3 provider has to be defined');
 
-    if (options.enableGSN) {
-      provider = new GSNProvider(provider, { useGSN: true });
+    if (options.gsn) {
+      const gsnOptions = typeof options.gsn === 'object' ? options.gsn : { useGSN: true };
+      provider = new GSNProvider(provider, gsnOptions);
     }
 
     this.providerName = getProviderName(provider as ExtendedProvider);
