@@ -38,22 +38,22 @@ export default class Web3Context extends EventEmitter {
 
   private pollHandle?: NodeJS.Timeout;
 
-  public constructor(provider: Provider, options?: Web3ContextOptions) {
+  public constructor(provider: Provider, options?: Partial<Web3ContextOptions>) {
     super();
 
-    options = Object.assign({}, { timeout: 3000, pollInterval: 500, gsn: false }, options);
+    const fullOptions = Object.assign({}, { timeout: 3000, pollInterval: 500, gsn: false }, options);
 
     if (!provider) throw new Error('A web3 provider has to be defined');
 
-    if (options.gsn) {
-      const gsnOptions = typeof options.gsn === 'object' ? options.gsn : { useGSN: true };
+    if (fullOptions.gsn) {
+      const gsnOptions = typeof fullOptions.gsn === 'object' ? fullOptions.gsn : { useGSN: true };
       provider = new GSNProvider(provider, gsnOptions);
     }
 
     this.providerName = getProviderName(provider as ExtendedProvider);
     this.lib = new Web3(provider);
-    this.timeout = options.timeout;
-    this.pollInterval = options.pollInterval;
+    this.timeout = fullOptions.timeout;
+    this.pollInterval = fullOptions.pollInterval;
   }
 
   public startPoll(): void {
