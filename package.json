@@ -27,7 +27,7 @@
     "metamask",
     "infura"
   ],
-  "author": "Igor Yalovoy <igor@zeppelin.solutions>",
+  "author": "Igor Yalovoy <igor@openzeppelin.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/OpenZeppelin/openzeppelin-network.js/issues"
