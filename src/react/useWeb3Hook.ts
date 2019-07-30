@@ -1,6 +1,6 @@
 import { Provider } from 'web3/providers';
 // TODO: Add React and React Hook linting rules
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer, Dispatch } from 'react';
 import * as providers from '../providers';
 
 import Web3Context, { Web3ContextOptions } from '../context/Web3Context';
@@ -11,6 +11,19 @@ type Web3ContextCallback = () => Promise<Web3Context>;
 export function useWeb3Context(provider: Provider, options?: Web3ContextOptions): Web3Context {
   // TODO: update the context when the options change
   const [context, setContext] = useState(() => new Web3Context(provider, options));
+  const forceUpdate = useForceUpdate();
+
+  // Causes components down the tree to re-render when any of the Web3Context properties change.
+  useEffect((): (() => void) => {
+    context.on('NetworkIdChanged', forceUpdate);
+    context.on('AccountsChanged', forceUpdate);
+    context.on('ConnectionChanged', forceUpdate);
+    return (): void => {
+      context.off('NetworkIdChanged', forceUpdate);
+      context.off('AccountsChanged', forceUpdate);
+      context.off('ConnectionChanged', forceUpdate);
+    }
+  }, [context]);
 
   useEffect((): (() => void) => {
     context.startPoll();
@@ -41,4 +54,9 @@ export function useWeb3(fallbackConnection: string, options?: Web3ContextOptions
     }
   });
   return useWeb3Context(provider, options);
+}
+
+function useForceUpdate(): Dispatch<unknown> {
+  const [, forceUpdate] = useReducer((x, _: unknown) => x + 1, 0);
+  return forceUpdate;
 }
