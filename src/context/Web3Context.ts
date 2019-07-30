@@ -39,7 +39,11 @@ export default class Web3Context extends EventEmitter {
   public constructor(provider: Provider, options?: Partial<Web3ContextOptions>) {
     super();
 
-    const fullOptions = Object.assign({}, { timeout: 3000, pollInterval: 500 }, options);
+    const fullOptions: Web3ContextOptions = Object.assign(
+      {},
+      { timeout: 3000, pollInterval: 500 },
+      options,
+    );
 
     if (!provider) throw new Error('A web3 provider has to be defined');
 
