@@ -54,9 +54,11 @@ export default class Web3Context extends EventEmitter {
   }
 
   public startPoll(): void {
-    // TODO: polling interval should depend on kind of web3 provider
-    // We can query local providers often but doing the same for the network providers may create a lot of overhead
-    this.pollHandle = setTimeout(this.poll.bind(this), this.pollInterval);
+    if (!this.pollHandle) {
+      // TODO: polling interval should depend on kind of web3 provider
+      // We can query local providers often but doing the same for the network providers may create a lot of overhead
+      this.pollHandle = setTimeout(this.poll.bind(this), this.pollInterval);
+    }
   }
 
   public stopPoll(): void {
