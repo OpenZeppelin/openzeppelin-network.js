@@ -11,35 +11,40 @@ An easy to use and reliable library that provides one line access to Web3 API.
 
 #### Install
 
-```
+```bash
 npm i @openzeppelin/network
 ```
 
 #### Use
 Import the library:
-```
+
+```javascript
 import { useWeb3Injected, useWeb3Network } from '@openzeppelin/network';
 ````
+
 Get Web3Context with React Hooks inside functional component:
-```
-  const injected = useWeb3Injected();
-  const local = useWeb3Network('http://127.0.0.1:8545');
+
+```javascript
+const injected = useWeb3Injected();
+const local = useWeb3Network('http://127.0.0.1:8545');
 ```
 
 Use Web3Context to get fresh data and receive events:
-```
+
+```javascript
 const { accounts, networkId, networkName, providerName, lib, connected } = web3Context;
 this.setState({ accounts, networkId, networkName, providerName, lib, connected });
 ```
 
 Subscribe to events to get notified:
-```
+
+```javascript
 web3Context.on(Web3Context.NetworkIdChangedEventName, (networkId, networkName) => {
-            setNetwork({ networkId, networkName });
-          });
+  setNetwork({ networkId, networkName });
+});
 web3Context.on(Web3Context.AccountsChangedEventName, async accounts => {
-            setWallet({ accounts, balance: await getBalance(web3Context) });
-          });
+  setWallet({ accounts, balance: await getBalance(web3Context) });
+});
 ```
 
 #### Learn more
