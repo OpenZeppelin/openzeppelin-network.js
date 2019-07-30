@@ -12,15 +12,12 @@ export function useWeb3Context(provider: Provider, options?: Web3ContextOptions)
   // TODO: update the context when the options change
   const [context, setContext] = useState(() => new Web3Context(provider, options));
 
-  useEffect(
-    (): (() => void) => {
-      context.startPoll();
-      return (): void => {
-        context.stopPoll();
-      };
-    },
-    [context]
-  );
+  useEffect((): (() => void) => {
+    context.startPoll();
+    return (): void => {
+      context.stopPoll();
+    };
+  }, [context]);
 
   return context;
 }
@@ -30,10 +27,7 @@ export function useWeb3Injected(options?: Web3ContextOptions): Web3Context {
   return useWeb3Context(provider, options);
 }
 
-export function useWeb3Network(
-  connection: string,
-  options?: Web3ContextOptions
-): Web3Context {
-  const [provider] = useState(() => providers.connection(connection))
+export function useWeb3Network(connection: string, options?: Web3ContextOptions): Web3Context {
+  const [provider] = useState(() => providers.connection(connection));
   return useWeb3Context(provider, options);
 }
