@@ -31,3 +31,14 @@ export function useWeb3Network(connection: string, options?: Web3ContextOptions)
   const [provider] = useState(() => providers.connection(connection));
   return useWeb3Context(provider, options);
 }
+
+export function useWeb3(fallbackConnection: string, options?: Web3ContextOptions): Web3Context {
+  const [provider] = useState(() => {
+    try {
+      return providers.injected();
+    } catch (e) {
+      return providers.connection(fallbackConnection);
+    }
+  });
+  return useWeb3Context(provider, options);
+}
