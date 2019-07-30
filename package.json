@@ -1,7 +1,7 @@
 {
   "name": "@openzeppelin/network",
-  "version": "0.1.0",
-  "description": "",
+  "version": "0.1.2",
+  "description": "An easy to use and reliable library that provides one line access to Web3 API.",
   "main": "./lib/index.js",
   "scripts": {
     "compile": "rm -rf lib && tsc",
@@ -14,10 +14,20 @@
     "url": "git+https://github.com/OpenZeppelin/openzeppelin-network.js.git"
   },
   "keywords": [
+    "react",
+    "react-hooks",
+    "hooks",
+    "ethereum",
+    "solidity",
+    "javascript",
     "web3",
-    "ethereum"
+    "context",
+    "frontend",
+    "dapp",
+    "metamask",
+    "infura"
   ],
-  "author": "Igor Yalovoy <igor@zeppelin.solutions>",
+  "author": "Igor Yalovoy <igor@openzeppelin.com>",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/OpenZeppelin/openzeppelin-network.js/issues"

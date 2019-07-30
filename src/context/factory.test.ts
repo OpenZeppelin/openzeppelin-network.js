@@ -38,8 +38,8 @@ describe('fromInjected function', (): void => {
   });
 
   it('fails if there is no injected provider', async (): Promise<void> => {
-    const context = await fromInjected();
-
-    expect(context).toBeNull();
+    await expect(fromInjected()).rejects.toMatchObject({
+      message: 'Web3 provider is not attached to the window.',
+    });
   });
 });

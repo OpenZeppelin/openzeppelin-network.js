@@ -14,8 +14,8 @@ declare global {
 }
 
 export interface Web3ContextOptions {
-  timeout?: number;
-  pollInterval?: number;
+  timeout: number;
+  pollInterval: number;
 }
 
 // TODO: Change event to use types using conditional types
@@ -29,12 +29,12 @@ export default class Web3Context extends EventEmitter {
   public readonly pollInterval: number;
   public readonly providerName: string;
 
-  public connected: boolean;
-  public accounts: string[] | null;
-  public networkId: number | null;
-  public networkName: string | null;
+  public connected: boolean = false;
+  public accounts: string[] | null = [];
+  public networkId: number | null = null;
+  public networkName: string | null = null;
 
-  private pollHandle: NodeJS.Timeout;
+  private pollHandle?: NodeJS.Timeout;
 
   public constructor(provider: Provider, options?: Web3ContextOptions) {
     super();
@@ -42,6 +42,7 @@ export default class Web3Context extends EventEmitter {
     options = Object.assign({}, { timeout: 3000, pollInterval: 500 }, options);
 
     if (!provider) throw new Error('A web3 provider has to be defined');
+
     this.providerName = getProviderName(provider as ExtendedProvider);
     this.lib = new Web3(provider);
     this.timeout = options.timeout;
@@ -55,7 +56,7 @@ export default class Web3Context extends EventEmitter {
   }
 
   public stopPoll(): void {
-    clearTimeout(this.pollHandle);
+    if (this.pollHandle) clearTimeout(this.pollHandle);
   }
 
   public async poll(): Promise<void> {
@@ -101,8 +102,9 @@ export default class Web3Context extends EventEmitter {
     eventName?: string,
     getArgs: Function = (): unknown[] => [],
   ): void {
-    if (newValue !== this[property]) {
-      this[property] = newValue;
+    const typedThis = this as Web3Context;
+    if (newValue !== typedThis[property]) {
+      typedThis[property] = newValue;
       if (eventName) this.emit(eventName, this[property], ...getArgs());
     }
   }
@@ -113,7 +115,7 @@ export default class Web3Context extends EventEmitter {
     // Request authentication
     if (this.lib.currentProvider.send !== undefined) {
       return new Promise((resolve, reject): void => {
-        const responseHandler = (error, response): void => {
+        const responseHandler = (error: unknown, response: { error: string; result: string[] }): void => {
           if (error || response.error) {
             reject(error || response.error);
           } else {

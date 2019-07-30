@@ -1,3 +1,3 @@
-export default function sleep(ms): Promise<NodeJS.Timeout> {
-  return new Promise((resolve): NodeJS.Timeout => setTimeout(resolve, ms));
+export default function sleep(ms: number): Promise<number> {
+  return new Promise((resolve): number => setTimeout(resolve, ms));
 }
