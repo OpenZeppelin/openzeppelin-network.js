@@ -107,15 +107,14 @@ export default class Web3Context extends EventEmitter {
     }
   }
 
-  private updateValueAndFireEvent<K extends keyof Web3Context, T extends Web3Context[K]>(
-    newValue: T,
-    property: K,
+  private updateValueAndFireEvent<P extends keyof this>(
+    newValue: this[P],
+    property: P,
     eventName?: string,
     getArgs: Function = (): unknown[] => [],
   ): void {
-    const typedThis = this as Web3Context;
-    if (newValue !== typedThis[property]) {
-      typedThis[property] = newValue;
+    if (newValue !== this[property]) {
+      this[property] = newValue;
       if (eventName) this.emit(eventName, this[property], ...getArgs());
     }
   }
