@@ -36,7 +36,7 @@ export default class Web3Context extends EventEmitter {
   public networkId: number | null = null;
   public networkName: string | null = null;
 
-  private pollHandle?: NodeJS.Timeout;
+  private pollHandle?: ReturnType<typeof setTimeout>;
 
   public constructor(provider: Provider, options?: Partial<Web3ContextOptions>) {
     super();
