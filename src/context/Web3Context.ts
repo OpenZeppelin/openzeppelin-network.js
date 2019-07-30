@@ -102,9 +102,8 @@ export default class Web3Context extends EventEmitter {
     eventName?: string,
     getArgs: Function = (): unknown[] => [],
   ): void {
-    const typedThis = this as Web3Context;
-    if (newValue !== typedThis[property]) {
-      typedThis[property] = newValue;
+    if (newValue !== this[property]) {
+      this[property] = newValue;
       if (eventName) this.emit(eventName, this[property], ...getArgs());
     }
   }
