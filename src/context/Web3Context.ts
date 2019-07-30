@@ -8,12 +8,6 @@ import ExtendedProvider from '../interface/ExtendedProvider';
 import getNetworkName from '../util/network';
 import getProviderName from '../util/providerName';
 
-declare global {
-  interface Window {
-    ethereum: Provider;
-  }
-}
-
 export interface Web3ContextOptions {
   timeout: number;
   pollInterval: number;
