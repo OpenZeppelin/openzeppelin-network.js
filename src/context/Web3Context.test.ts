@@ -109,6 +109,10 @@ describe('Web3Context', (): void => {
         context.emit = jest.fn();
 
         const pollPromise = context.poll();
+        jest.advanceTimersByTime(100);
+        // this is necessary because Jest fake timer firing is synchronous and
+        // this doesn't interact well with Promises
+        await Promise.resolve();
         jest.runOnlyPendingTimers();
         await pollPromise;
 
