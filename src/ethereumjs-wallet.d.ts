@@ -2,7 +2,7 @@ declare module 'ethereumjs-wallet' {
   function generate(): Wallet;
 
   class Wallet {
-    privKey: Buffer;
-    getAddress(): Buffer;
+    public privKey: Buffer;
+    public getAddress(): Buffer;
   }
 }

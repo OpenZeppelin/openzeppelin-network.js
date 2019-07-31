@@ -8,6 +8,11 @@ import { fromInjected, fromConnection } from '../context/factory';
 
 type Web3ContextCallback = () => Promise<Web3Context>;
 
+function useForceUpdate(): Dispatch<unknown> {
+  const [, forceUpdate] = useReducer((x, _: unknown) => x + 1, 0);
+  return forceUpdate;
+}
+
 export function useWeb3Context(provider: Provider, options?: Web3ContextOptions): Web3Context {
   // TODO: update the context when the options change
   const [context, setContext] = useState(() => new Web3Context(provider, options));
@@ -22,7 +27,7 @@ export function useWeb3Context(provider: Provider, options?: Web3ContextOptions)
       context.off('NetworkIdChanged', forceUpdate);
       context.off('AccountsChanged', forceUpdate);
       context.off('ConnectionChanged', forceUpdate);
-    }
+    };
   }, [context]);
 
   useEffect((): (() => void) => {
@@ -54,9 +59,4 @@ export function useWeb3(fallbackConnection: string, options?: Web3ContextOptions
     }
   });
   return useWeb3Context(provider, options);
-}
-
-function useForceUpdate(): Dispatch<unknown> {
-  const [, forceUpdate] = useReducer((x, _: unknown) => x + 1, 0);
-  return forceUpdate;
 }

@@ -9,6 +9,6 @@ export function ephemeral(): KeyPair {
   const w = wallet.generate();
   return {
     privateKey: w.privKey,
-    address: "0x" + w.getAddress().toString('hex')
+    address: '0x' + w.getAddress().toString('hex'),
   };
 }

@@ -28,4 +28,3 @@ export function injected(): Provider {
 
   return provider;
 }
-
