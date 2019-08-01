@@ -11,7 +11,7 @@
     "prepare": "npm run compile",
     "compile": "tsc",
     "watch": "tsc -w",
-    "lint": "tsc --noEmit && eslint '*/**/*.{js,ts}' --quiet --fix",
+    "lint": "tsc --noEmit && eslint 'src/**/*.{js,ts}' --quiet --fix",
     "test": "jest --verbose"
   },
   "repository": {
