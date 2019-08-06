@@ -4,13 +4,12 @@ import { useState, useEffect } from 'react';
 import * as providers from '../providers';
 
 import Web3Context, { Web3ContextOptions } from '../context/Web3Context';
-import { fromInjected, fromConnection } from '../context/factory';
 
 type Web3ContextCallback = () => Promise<Web3Context>;
 
 export function useWeb3Context(provider: Provider, options?: Web3ContextOptions): Web3Context {
   // TODO: update the context when the options change
-  const [context, setContext] = useState(() => new Web3Context(provider, options));
+  const [context] = useState((): Web3Context => new Web3Context(provider, options));
 
   useEffect((): (() => void) => {
     context.startPoll();
@@ -23,22 +22,24 @@ export function useWeb3Context(provider: Provider, options?: Web3ContextOptions)
 }
 
 export function useWeb3Injected(options?: Web3ContextOptions): Web3Context {
-  const [provider] = useState(() => providers.injected());
+  const [provider] = useState((): Provider => providers.injected());
   return useWeb3Context(provider, options);
 }
 
 export function useWeb3Network(connection: string, options?: Web3ContextOptions): Web3Context {
-  const [provider] = useState(() => providers.connection(connection));
+  const [provider] = useState((): Provider => providers.connection(connection));
   return useWeb3Context(provider, options);
 }
 
 export function useWeb3(fallbackConnection: string, options?: Web3ContextOptions): Web3Context {
-  const [provider] = useState(() => {
-    try {
-      return providers.injected();
-    } catch (e) {
-      return providers.connection(fallbackConnection);
-    }
-  });
+  const [provider] = useState(
+    (): Provider => {
+      try {
+        return providers.injected();
+      } catch (e) {
+        return providers.connection(fallbackConnection);
+      }
+    },
+  );
   return useWeb3Context(provider, options);
 }

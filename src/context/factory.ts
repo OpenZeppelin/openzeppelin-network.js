@@ -1,6 +1,4 @@
-import Web3 from 'web3';
 import Web3Context, { Web3ContextOptions } from './Web3Context';
-import ExtendedProvider from '../interface/ExtendedProvider';
 import * as providers from '../providers';
 
 export async function fromConnection(connection: string, options?: Web3ContextOptions): Promise<Web3Context> {
