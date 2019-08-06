@@ -2,20 +2,16 @@ import Web3 from 'web3';
 import { Provider } from 'web3/providers';
 import { EventEmitter } from 'events';
 import timeout from '../util/timeout';
+import { GSNProvider } from '@openzeppelin/gsn-provider';
 
 import ExtendedProvider from '../interface/ExtendedProvider';
 import getNetworkName from '../util/network';
 import getProviderName from '../util/providerName';
 
-declare global {
-  interface Window {
-    ethereum: Provider;
-  }
-}
-
 export interface Web3ContextOptions {
   timeout: number;
   pollInterval: number;
+  gsn: boolean | object;
 }
 
 // TODO: Change event to use types using conditional types
@@ -41,11 +37,16 @@ export default class Web3Context extends EventEmitter {
 
     const fullOptions: Web3ContextOptions = Object.assign(
       {},
-      { timeout: 3000, pollInterval: 500 },
+      { timeout: 3000, pollInterval: 500, gsn: false },
       options,
     );
 
     if (!provider) throw new Error('A web3 provider has to be defined');
+
+    if (fullOptions.gsn) {
+      const gsnOptions = typeof fullOptions.gsn === 'object' ? fullOptions.gsn : { useGSN: true };
+      provider = new GSNProvider(provider, gsnOptions);
+    }
 
     this.providerName = getProviderName(provider as ExtendedProvider);
     this.lib = new Web3(provider);
