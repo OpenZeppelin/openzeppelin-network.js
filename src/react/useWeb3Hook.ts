@@ -26,24 +26,26 @@ export function useWeb3Context(provider: Provider, options?: Web3ContextOptions)
       context.off(Web3Context.AccountsChangedEventName, callForceUpdate);
       context.off(Web3Context.ConnectionChangedEventName, callForceUpdate);
     };
-  }, []);
+  }, [context]);
 
   useEffect((): (() => void) => {
     context.startPoll();
     return (): void => {
       context.stopPoll();
     };
-  }, []);
+  }, [context]);
 
   return context;
 }
 
 export function useWeb3Injected(options?: Web3ContextOptions): Web3Context {
-  return useWeb3Context(providers.injected(), options);
+  const [provider] = useState((): Provider => providers.injected());
+  return useWeb3Context(provider, options);
 }
 
 export function useWeb3Network(connection: string, options?: Web3ContextOptions): Web3Context {
-  return useWeb3Context(providers.connection(connection), options);
+  const [provider] = useState((): Provider => providers.connection(connection));
+  return useWeb3Context(provider, options);
 }
 
 export function useWeb3(fallbackConnection: string, options?: Web3ContextOptions): Web3Context {
