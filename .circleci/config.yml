@@ -18,4 +18,4 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package-lock.json" }}
 
-      - run: tsc --noEmit && npx eslint 'src/**/*.{js,ts}' && npm test
+      - run: npx tsc --noEmit && npx eslint 'src/**/*.{js,ts}' && npm test
