@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import { Provider } from 'web3/providers';
-import ExtendedProvider from './interface/ExtendedProvider';
+import ExtendedProvider from '../interface/ExtendedProvider';
 
 declare global {
   interface Window {
