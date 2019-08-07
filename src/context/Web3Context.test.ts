@@ -41,7 +41,7 @@ describe('Web3Context', (): void => {
 
       expect(clearTimeout).toHaveBeenCalled();
       // @ts-ignore
-      expect(clearTimeout).toHaveBeenLastCalledWith(context.pollHandle);
+      expect(clearTimeout).toHaveBeenLastCalledWith(14322);
     });
   });
 

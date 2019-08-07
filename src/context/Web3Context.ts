@@ -64,7 +64,10 @@ export default class Web3Context extends EventEmitter {
   }
 
   public stopPoll(): void {
-    if (this.pollHandle) clearTimeout(this.pollHandle);
+    if (this.pollHandle) {
+      clearTimeout(this.pollHandle);
+      this.pollHandle = undefined;
+    }
   }
 
   public async poll(): Promise<void> {
