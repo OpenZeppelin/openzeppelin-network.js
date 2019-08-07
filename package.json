@@ -1,6 +1,6 @@
 {
   "name": "@openzeppelin/network",
-  "version": "0.1.2",
+  "version": "0.2.2",
   "description": "An easy to use and reliable library that provides one line access to Web3 API.",
   "main": "./lib/index.js",
   "files": [
