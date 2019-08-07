@@ -57,6 +57,7 @@
   "dependencies": {
     "@openzeppelin/gsn-provider": "github:OpenZeppelin/openzeppelin-gsn-provider",
     "ethereumjs-wallet": "^0.6.3",
+    "fast-deep-equal": "^2.0.1",
     "web3": "^1.2.0"
   },
   "husky": {

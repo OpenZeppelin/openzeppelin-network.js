@@ -1,3 +1,4 @@
+import equal from 'fast-deep-equal';
 import Web3 from 'web3';
 import { Provider } from 'web3/providers';
 import { EventEmitter } from 'events';
@@ -99,7 +100,7 @@ export default class Web3Context extends EventEmitter {
       // TODO: Implement throtling so we do not spam console
       // console.log(e);
     } finally {
-      this.startPoll();
+      this.pollHandle = setTimeout(this.poll.bind(this), this.pollInterval);
     }
   }
 
@@ -109,7 +110,7 @@ export default class Web3Context extends EventEmitter {
     eventName?: string,
     getArgs: Function = (): unknown[] => [],
   ): void {
-    if (newValue !== this[property]) {
+    if (!equal(newValue, this[property])) {
       this[property] = newValue;
       if (eventName) this.emit(eventName, this[property], ...getArgs());
     }
