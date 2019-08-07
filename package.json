@@ -1,6 +1,6 @@
 {
   "name": "@openzeppelin/network",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "An easy to use and reliable library that provides one line access to Web3 API.",
   "main": "./lib/index.js",
   "files": [
@@ -58,7 +58,7 @@
     "@openzeppelin/gsn-provider": "github:OpenZeppelin/openzeppelin-gsn-provider",
     "ethereumjs-wallet": "^0.6.3",
     "fast-deep-equal": "^2.0.1",
-    "web3": "^1.2.1"
+    "web3": "^1.0.0-beta.37"
   },
   "husky": {
     "hooks": {
