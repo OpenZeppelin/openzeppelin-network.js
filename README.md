@@ -3,12 +3,12 @@
 [![npm (scoped)](https://img.shields.io/npm/v/@openzeppelin/network)](https://www.npmjs.com/package/@openzeppelin/network)
 
 An easy to use and reliable library that provides one line access to Web3 API.
-* Hides various Web3 providers behind common API
-* One line access to the Web3 providers (Metamask, Infura, Geth, Portis and etc)
-* Supports multiple Web3 providers within the same app
-* First class support of meta-txs
-* React integration using hooks
-* Network, accounts, and connection changed events for all web3 providers
+* Hides various Web3 providers behind common API.
+* One line access to the Web3 providers (Metamask, Infura, Geth, Portis and etc).
+* Supports multiple Web3 providers within the same app.
+* First class support of meta-txs.
+* React integration using hooks.
+* Network, accounts, and connection changed events for all web3 providers.
 * Will fire events even for HTTP and forcefully terminated providers.
 
 ## Quickstart
@@ -72,13 +72,13 @@ const local = await fromConnection('http://127.0.0.1:8545');
 To use GSN provide an option:
 
 ```typescript
-const local = useWeb3Network('http://127.0.0.1:8545', { gsn: true });
+const injected = await fromInjected('http://127.0.0.1:8545', { gsn: true });
 ```
 
 It is also possible to provide a sign key:
 
 ```typescript
-const local = useWeb3Network('http://127.0.0.1:8545', { 
+const injected = await fromInjected('http://127.0.0.1:8545', { 
   gsn: { signKey: useEphemeralKey() } 
 });
 ```
@@ -150,7 +150,7 @@ Creates fully initialized `Web3Context` from a connection string to a node or a 
 async function fromInjected(options?: Web3ContextOptions): Promise<Web3Context>
 ```
 
-Creates fully initialized `Web3Context` from a injected web3 provider, like MetMask.
+Creates fully initialized `Web3Context` from an injected web3 provider, like MetMask.
 
 ### WebContextOptions
 
@@ -162,9 +162,9 @@ export interface Web3ContextOptions {
 }
 ```
 
-`timeout` specifies wait time for underlying web3 provider calls before considering them failed.
-`pollInteral` is how often data will be polled from underlying web3 provider. For network providers you might want to set this parameter manually to control network load.
-`gsn` if set GSN provider will be use. Pass object to set GSN provider options.
+`timeout` specifies wait time for underlying web3 provider calls before considering them failed.  
+`pollInteral` is how often data will be polled from an underlying web3 provider. For network providers you might want to set this parameter manually to control a network load.  
+`gsn` if set a GSN provider will be use. Pass an object to set GSN provider options.  
 
 ### Web3Context
 `Web3Context` class is reponsible for polling web3 providers, firing events, enabling GSN, and keeping data fresh. Typically you shouldn't call any methods on Web3Context yourself. Use React Hooks or helper methods.
