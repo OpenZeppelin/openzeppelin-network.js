@@ -41,6 +41,20 @@ const { accounts, networkId, networkName, providerName, lib, connected } = web3C
 
 Network.js will re-render component when network, accounts or connetion state change.
 
+To use GSN with any hook specify GSN as an option:
+
+```typescript
+const local = useWeb3Network('http://127.0.0.1:8545', { gsn: true });
+```
+
+It is also possible to provide a sign key:
+
+```typescript
+const local = useWeb3Network('http://127.0.0.1:8545', { 
+  gsn: { signKey: useEphemeralKey() } 
+});
+```
+
 ### Use with Vanila Javascript
 Import the library:
 
@@ -53,6 +67,20 @@ Get `Web3Context`:
 ```javascript
 const injected = await fromInjected();
 const local = await fromConnection('http://127.0.0.1:8545');
+```
+
+To use GSN provide an option:
+
+```typescript
+const local = useWeb3Network('http://127.0.0.1:8545', { gsn: true });
+```
+
+It is also possible to provide a sign key:
+
+```typescript
+const local = useWeb3Network('http://127.0.0.1:8545', { 
+  gsn: { signKey: useEphemeralKey() } 
+});
 ```
 
 Use `Web3Context` to get fresh data immediately:
@@ -110,20 +138,6 @@ Tries to retrive an web3 injected provider first if fails falls back on a networ
 function useEphemeralKey(): KeyPair
 ```
 Generates in memory private/public key pair.
-
-To use GSN with any hook specify GSN as an option:
-
-```typescript
-const local = useWeb3Network('http://127.0.0.1:8545', { gsn: true });
-```
-
-It is also possible to provide a sign key:
-
-```typescript
-const local = useWeb3Network('http://127.0.0.1:8545', { 
-  gsn: { signKey: useEphemeralKey() } 
-});
-```
 
 ### Helpers
 
