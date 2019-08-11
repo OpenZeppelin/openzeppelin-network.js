@@ -16,7 +16,7 @@ export function injected(): Provider {
   // Detect whether the current browser is ethereum-compatible,
   // and throw an error if it is not
   if (window.ethereum === undefined) {
-    throw new Error('Web3 provider is not attached to the window.');
+    throw new Error('A web3 provider is not attached to a window.');
   }
 
   const provider = window.ethereum as ExtendedProvider;

@@ -164,7 +164,7 @@ export interface Web3ContextOptions {
 
 `timeout` specifies wait time for underlying web3 provider calls before considering them failed.  
 `pollInteral` is how often data will be polled from an underlying web3 provider. For network providers you might want to set this parameter manually to control a network load.  
-`gsn` if set a GSN provider will be use. Pass an object to set GSN provider options.  
+`gsn` if set a GSN provider will be use. Pass an object to  set GSN provider options.  
 
 ### Web3Context
 `Web3Context` class is reponsible for polling web3 providers, firing events, enabling GSN, and keeping data fresh. Typically you shouldn't call any methods on Web3Context yourself. Use React Hooks or helper methods.

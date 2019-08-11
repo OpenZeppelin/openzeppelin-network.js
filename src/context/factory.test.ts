@@ -10,7 +10,7 @@ const localConnection = 'http://localhost:7545';
 const mockedWeb3Context = mocked(Web3Context);
 
 describe('fromConnection function', (): void => {
-  it('creates Web3 context from connection', async (): Promise<void> => {
+  it('creates a Web3 context from a connection', async (): Promise<void> => {
     const context = await fromConnection(localConnection);
 
     expect(context).not.toBeNull();
@@ -22,7 +22,7 @@ describe('fromConnection function', (): void => {
 });
 
 describe('fromInjected function', (): void => {
-  it('creates Web3 context from injected provider', async (): Promise<void> => {
+  it('creates Web3 a context from an injected provider', async (): Promise<void> => {
     const provider = {};
     window.ethereum = provider as Provider;
 
@@ -37,9 +37,9 @@ describe('fromInjected function', (): void => {
     delete window.ethereum;
   });
 
-  it('fails if there is no injected provider', async (): Promise<void> => {
+  it('fails if there is no an injected provider', async (): Promise<void> => {
     await expect(fromInjected()).rejects.toMatchObject({
-      message: 'Web3 provider is not attached to the window.',
+      message: 'A web3 provider is not attached to a window.',
     });
   });
 });
