@@ -13,6 +13,8 @@ export default function getProviderName(provider: ExtendedProvider): string {
 
   if (provider.isToshi) return 'coinbase';
 
+  if (provider.isGSNProvider) return 'GSN';
+
   if (provider.constructor.name === 'EthereumProvider') return 'mist';
 
   if (provider.constructor.name === 'Web3FrameProvider') return 'parity';

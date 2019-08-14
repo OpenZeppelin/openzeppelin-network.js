@@ -8,6 +8,7 @@ export default interface ExtendedProvider extends Provider {
   isAlphaWallet?: boolean;
   isStatus?: boolean;
   isToshi?: boolean;
+  isGSNProvider?: boolean;
   host?: string;
   connection?: WebSocket;
 }
