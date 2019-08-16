@@ -1,5 +1,5 @@
 # openzeppelin-network.js
-[![CircleCI](https://circleci.com/gh/OpenZeppelin/openzeppelin-network.js.svg?style=svg)](https://circleci.com/gh/OpenZeppelin/openzeppelin-network.js)
+[![CircleCI](https://circleci.com/gh/OpenZeppelin/openzeppelin-network.js.svg?style=shield)](https://circleci.com/gh/OpenZeppelin/openzeppelin-network.js)
 [![npm (scoped)](https://img.shields.io/npm/v/@openzeppelin/network)](https://www.npmjs.com/package/@openzeppelin/network)
 
 An easy to use and reliable library that provides one line access to Web3 API.
