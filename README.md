@@ -79,7 +79,7 @@ It is also possible to provide a sign key:
 
 ```typescript
 const injected = await fromInjected('http://127.0.0.1:8545', { 
-  gsn: { signKey: useEphemeralKey() } 
+  gsn: { signKey: ephemeral() } 
 });
 ```
 
