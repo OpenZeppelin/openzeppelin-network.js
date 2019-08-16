@@ -8,12 +8,14 @@ import { GSNProvider, GSNDevProvider } from '@openzeppelin/gsn-provider';
 import ExtendedProvider from '../interface/ExtendedProvider';
 import getNetworkName from '../util/network';
 import getProviderName from '../util/providerName';
+import { KeyPair } from '../wallet/keys';
 
 export interface GSNOptions {
   dev: boolean;
   useGSN: boolean;
   ownerAddress: string;
   relayerAddress: string;
+  signKey: KeyPair;
 }
 
 export interface Web3ContextOptions {
