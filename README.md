@@ -23,7 +23,7 @@ npm i @openzeppelin/network
 Import the library:
 
 ```javascript
-import { useWeb3Injected, useWeb3Network } from '@openzeppelin/network';
+import { useWeb3Injected, useWeb3Network, useEphemeralKey } from '@openzeppelin/network';
 ```
 
 Get Web3Context with React Hooks inside functional component:
@@ -41,13 +41,7 @@ const { accounts, networkId, networkName, providerName, lib, connected } = web3C
 
 Network.js will re-render component when network, accounts or connetion state change.
 
-To use GSN with any hook specify GSN as an option:
-
-```typescript
-const local = useWeb3Network('http://127.0.0.1:8545', { gsn: true });
-```
-
-It is also possible to provide a sign key:
+To use GSN with any hook specify GSN as an option, providing a signing key:
 
 ```typescript
 const local = useWeb3Network('http://127.0.0.1:8545', { 
@@ -69,13 +63,7 @@ const injected = await fromInjected();
 const local = await fromConnection('http://127.0.0.1:8545');
 ```
 
-To use GSN provide an option:
-
-```typescript
-const injected = await fromInjected('http://127.0.0.1:8545', { gsn: true });
-```
-
-It is also possible to provide a sign key:
+To use GSN include a `gsn` option, including a signing key:
 
 ```typescript
 const injected = await fromInjected('http://127.0.0.1:8545', { 
