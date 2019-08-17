@@ -29,7 +29,7 @@ export function useWeb3Context(provider: Provider, options?: Web3ContextOptions)
   }, [context]);
 
   useEffect((): (() => void) => {
-    context.startPoll();
+    context.poll();
     return (): void => {
       context.stopPoll();
     };

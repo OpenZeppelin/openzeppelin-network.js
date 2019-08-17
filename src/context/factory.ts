@@ -4,7 +4,6 @@ import * as providers from './providers';
 export async function fromConnection(connection: string, options?: Web3ContextOptions): Promise<Web3Context> {
   const context = new Web3Context(providers.connection(connection), options);
   await context.poll();
-  context.startPoll();
 
   return context;
 }
@@ -12,7 +11,6 @@ export async function fromConnection(connection: string, options?: Web3ContextOp
 export async function fromInjected(options?: Web3ContextOptions): Promise<Web3Context> {
   const context = new Web3Context(providers.injected(), options);
   await context.poll();
-  context.startPoll();
 
   return context;
 }
