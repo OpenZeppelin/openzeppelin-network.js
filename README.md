@@ -23,7 +23,7 @@ npm i @openzeppelin/network
 Import the library:
 
 ```javascript
-import { useWeb3Injected, useWeb3Network, useEphemeralKey } from '@openzeppelin/network';
+import { useWeb3Injected, useWeb3Network, useEphemeralKey } from '@openzeppelin/network/react';
 ```
 
 Get Web3Context with React Hooks inside functional component:
