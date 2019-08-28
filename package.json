@@ -49,6 +49,7 @@
     "eslint-plugin-prettier": "^3.1.0",
     "husky": "^2.4.0",
     "jest": "^24.8.0",
+    "lint-staged": "^9.2.5",
     "prettier": "^1.18.2",
     "react": "^16.8.6",
     "ts-jest": "^24.0.2",
@@ -62,7 +63,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint && npm run test"
+      "pre-commit": "lint-staged && npx tsc --noEmit && npm run test"
     }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }
