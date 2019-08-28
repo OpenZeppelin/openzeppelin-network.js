@@ -1,13 +1,13 @@
 {
   "name": "@openzeppelin/network",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "An easy to use and reliable library that provides one line access to Web3 API.",
   "main": "./lib/index.js",
   "files": [
-    "lib",
-    "react"
+    "lib"
   ],
   "scripts": {
+    "preinstall": "ln -s ./lib/react ./react",
     "prepare": "npm run compile",
     "compile": "tsc",
     "watch": "tsc -w",
