@@ -65,7 +65,6 @@
     "hooks": {
       "pre-commit": "lint-staged && npx tsc --noEmit",
       "pre-push": "npm run test"
-
     }
   },
   "lint-staged": {

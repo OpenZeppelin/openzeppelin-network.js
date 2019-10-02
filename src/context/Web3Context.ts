@@ -91,13 +91,13 @@ export default class Web3Context extends EventEmitter {
       const newNetworkId = await timeout(this.lib.eth.net.getId(), this.timeout);
 
       const newNetworkName = getNetworkName(newNetworkId);
+      this.updateValueAndFireEvent(newNetworkName, networkNameName);
       this.updateValueAndFireEvent(
         newNetworkId,
         networkIdName,
         Web3Context.NetworkIdChangedEventName,
         (): unknown[] => [newNetworkName],
       );
-      this.updateValueAndFireEvent(newNetworkName, networkNameName);
       // get the accounts
       const newAccounts = await timeout(this.lib.eth.getAccounts(), this.timeout);
       this.updateValueAndFireEvent(newAccounts, accountsName, Web3Context.AccountsChangedEventName);
