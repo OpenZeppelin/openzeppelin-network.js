@@ -49,7 +49,7 @@ const local = useWeb3Network('http://127.0.0.1:8545', {
 });
 ```
 
-### Use with Vanila Javascript
+### Use with Vanilla Javascript
 Import the library:
 
 ```javascript
@@ -66,7 +66,7 @@ const local = await fromConnection('http://127.0.0.1:8545');
 To use GSN include a `gsn` option, including a signing key:
 
 ```typescript
-const injected = await fromInjected('http://127.0.0.1:8545', { 
+const local = await fromConnection('http://127.0.0.1:8545', { 
   gsn: { signKey: ephemeral() } 
 });
 ```
