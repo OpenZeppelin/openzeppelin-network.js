@@ -1,14 +1,13 @@
 import { Provider } from 'web3/providers';
 // TODO: Add React and React Hook linting rules
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import * as providers from '../context/providers';
 
 import Web3Context, { Web3ContextOptions } from '../context/Web3Context';
 import useForceUpdate from '../util/forceUpdate';
 
 export function useWeb3Context(provider: Provider, options?: Web3ContextOptions): Web3Context {
-  // TODO: update the context when the options change
-  const [context] = useState((): Web3Context => new Web3Context(provider, options));
+  const context = useMemo((): Web3Context => new Web3Context(provider, options), [provider, options]);
 
   const forceUpdate = useForceUpdate();
 
@@ -44,19 +43,17 @@ export function useWeb3Injected(options?: Web3ContextOptions): Web3Context {
 }
 
 export function useWeb3Network(connection: string, options?: Web3ContextOptions): Web3Context {
-  const [provider] = useState((): Provider => providers.connection(connection));
+  const provider = useMemo((): Provider => providers.connection(connection), [connection]);
   return useWeb3Context(provider, options);
 }
 
 export function useWeb3(fallbackConnection: string, options?: Web3ContextOptions): Web3Context {
-  const [provider] = useState(
-    (): Provider => {
-      try {
-        return providers.injected();
-      } catch (e) {
-        return providers.connection(fallbackConnection);
-      }
-    },
-  );
+  const provider = useMemo((): Provider => {
+    try {
+      return providers.injected();
+    } catch (e) {
+      return providers.connection(fallbackConnection);
+    }
+  }, [fallbackConnection]); // Note that we don't rerun this if Metamask becomes enabled
   return useWeb3Context(provider, options);
 }
