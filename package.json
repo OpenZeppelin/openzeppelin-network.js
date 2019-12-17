@@ -7,12 +7,14 @@
     "lib"
   ],
   "scripts": {
+    "compile": "tsc",
+    "docs": "oz-docs",
+    "docs:watch": "npm run docs watch",
+    "lint": "npx tsc --noEmit && eslint 'src/**/*.{js,ts}' --fix",
     "preinstall": "ln -s ./lib/react ./react",
     "prepare": "npm run compile",
-    "compile": "tsc",
-    "watch": "tsc -w",
-    "lint": "npx tsc --noEmit && eslint 'src/**/*.{js,ts}' --fix",
-    "test": "jest --verbose"
+    "test": "jest --verbose",
+    "watch": "tsc -w"
   },
   "repository": {
     "type": "git",
@@ -50,6 +52,7 @@
     "husky": "^2.4.0",
     "jest": "^24.8.0",
     "lint-staged": "^9.2.5",
+    "openzeppelin-docs-utils": "github:OpenZeppelin/docs-utils",
     "prettier": "^1.18.2",
     "react": "^16.8.6",
     "ts-jest": "^24.0.2",

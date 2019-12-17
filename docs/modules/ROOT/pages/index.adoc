@@ -1,6 +1,4 @@
-# openzeppelin-network.js
-[![CircleCI](https://circleci.com/gh/OpenZeppelin/openzeppelin-network.js.svg?style=shield)](https://circleci.com/gh/OpenZeppelin/openzeppelin-network.js)
-[![npm (scoped)](https://img.shields.io/npm/v/@openzeppelin/network)](https://www.npmjs.com/package/@openzeppelin/network)
+= Network JS
 
 **One line access to Web3 in your dApp.**
 
@@ -12,21 +10,25 @@
  * Network, accounts, and connection changed events for all web3 providers.
  * Will fire events even for HTTP and forcefully terminated providers.
 
-## Overview
+== Overview
 
-### Installation
+=== Installation
 
 ```bash
 npm install @openzeppelin/network
 ```
 
-### Usage
+=== Usage
 
-#### With React Hooks
+==== With React Hooks
 Import the library:
 
 ```javascript
-import { useWeb3Injected, useWeb3Network, useEphemeralKey } from '@openzeppelin/network/react';
+import {
+  useWeb3Injected,
+  useWeb3Network,
+  useEphemeralKey,
+} from '@openzeppelin/network/react';
 ```
 
 Get Web3Context with React Hooks inside functional component:
@@ -39,7 +41,14 @@ const local = useWeb3Network('http://127.0.0.1:8545');
 Use `Web3Context` to get fresh data:
 
 ```javascript
-const { accounts, networkId, networkName, providerName, lib, connected } = web3Context;
+const {
+  accounts,
+  networkId,
+  networkName,
+  providerName,
+  lib,
+  connected,
+} = web3Context;
 ```
 
 Network.js will re-render component when network, accounts or connetion state change.
@@ -52,7 +61,7 @@ const local = useWeb3Network('http://127.0.0.1:8545', {
 });
 ```
 
-#### With Vanilla Javascript
+==== With Vanilla Javascript
 Import the library:
 
 ```javascript
@@ -77,7 +86,14 @@ const local = await fromConnection('http://127.0.0.1:8545', {
 Use `Web3Context` to get fresh data immediately:
 
 ```javascript
-const { accounts, networkId, networkName, providerName, lib, connected } = web3Context;
+const {
+  accounts,
+  networkId,
+  networkName,
+  providerName,
+  lib,
+  connected,
+} = web3Context;
 ```
 
 Subscribe to events to get notified:
@@ -101,11 +117,7 @@ web3Context.off(Web3Context.ConnectionChangedEventName, updateConnection);
 
 ```
 
-## Learn More
+== Learn More
 
- * Try it out on the  [Starter Kit](https://github.com/OpenZeppelin/starter-kit/tree/stable): run `openzeppelin unpack starter` and follow the instructions.
- * For detailed usage information, take a look at the [API Reference](docs/modules/ROOT/pages/api.adoc).
-
-## License
-
-Released under the MIT License.
+ * Try it out on the  https://github.com/OpenZeppelin/starter-kit/tree/stable[Starter Kit]: run `openzeppelin unpack starter` and follow the instructions.
+ * For detailed usage information, take a look at the xref:api.adoc[API Reference].
