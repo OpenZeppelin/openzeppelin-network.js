@@ -2,14 +2,14 @@
 
 == React Hooks
 
-=== `useWeb3Injected`
+=== useWeb3Injected
 
 ```typescript
 function useWeb3Injected(options?: Web3ContextOptions): Web3Context
 ```
 Returns Web3Context built from an injected provider like MetaMask. Will re-render on accounts, network, and connection change.
 
-=== `useWeb3Network`
+=== useWeb3Network
 
 ```typescript
 function useWeb3Network(connection: string, options?: Web3ContextOptions)
@@ -18,7 +18,7 @@ function useWeb3Network(connection: string, options?: Web3ContextOptions)
 
 Returns Web3Context built from a connection string like Infura or a private node. Will re-render on accounts, network, and connection change.
 
-=== `useWeb3`
+=== useWeb3
 
 ```typescript
 function useWeb3(fallbackConnection: string, options?: Web3ContextOptions)
@@ -26,7 +26,7 @@ function useWeb3(fallbackConnection: string, options?: Web3ContextOptions)
 ```
 Tries to retrive an web3 injected provider first if fails falls back on a network connection. Will re-render on accounts, network, and connection change.
 
-=== `useEphemeralKey`
+=== useEphemeralKey
 
 ```typescript
 function useEphemeralKey(): KeyPair
@@ -35,7 +35,7 @@ Generates in memory private/public key pair.
 
 == Helpers
 
-=== `fromConnection`
+=== fromConnection
 
 ```typescript
 async function fromConnection(connection: string, options?: Web3ContextOptions)
@@ -43,7 +43,7 @@ async function fromConnection(connection: string, options?: Web3ContextOptions)
 ```
 Creates fully initialized `Web3Context` from a connection string to a node or a service like Infura.
 
-=== `fromInjected`
+=== fromInjected
 
 ```typescript
 async function fromInjected(options?: Web3ContextOptions): Promise<Web3Context>
@@ -70,42 +70,42 @@ export interface Web3ContextOptions {
 
 === Properties
 
-==== `lib`
+==== lib
 
 ```typescript
   public readonly lib: Web3;
 ```
 An initialized instance of web3.js.
 
-==== `connected`
+==== connected
 
 ```typescript
   public connected: boolean;
 ```
 Indicated if underlying provider available or not.
 
-==== `accounts`
+==== accounts
 
 ```typescript
   public accounts: string[] | null;
 ```
 Provides an instant access to the accounts of a web3 provider. If an array is empty then accounts either locked or not avaiable on a web3 provider.
 
-==== `networkId`
+==== networkId
 
 ```typescript
   public networkId: number | null;
 ```
 Id of a current network.
 
-==== `networkName`
+==== networkName
 
 ```typescript
   public networkName: string | null;
 ```
 A current network human-readable name, for example: Main, Ropsten.
 
-==== `providerName`
+==== providerName
 
 ```typescript
   public readonly providerName: string;
@@ -114,7 +114,7 @@ A current web3 provider human-readable name, for example: metamask, infura.
 
 === Methods
 
-==== `startPoll`
+==== startPoll
 
 ```typescript
 public startPoll(): void
@@ -122,7 +122,7 @@ public startPoll(): void
 Starts polling data from web3 provider and firing events on change. Typically you shouldn't call this method directly.
 
 
-==== `stopPoll`
+==== stopPoll
 
 ```typescript
 public stopPoll(): void
@@ -130,7 +130,7 @@ public stopPoll(): void
 Stops polling data and firing events. Typically you shouldn't call this method directly.
 
 
-==== `poll`
+==== poll
 
 ```typescript
 public async poll(): Promise<void>
@@ -138,7 +138,7 @@ public async poll(): Promise<void>
 Updates data and fires events only once. Typically you shouldn't call this method directly.
 
 
-==== `requestAuth`
+==== requestAuth
 
 ```typescript
 public async requestAuth(): Promise<string[]>
