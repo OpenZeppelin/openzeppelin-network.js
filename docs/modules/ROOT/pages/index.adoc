@@ -119,5 +119,6 @@ web3Context.off(Web3Context.ConnectionChangedEventName, updateConnection);
 
 == Learn More
 
+ * Check out the tutorial on xref:building-a-dapp-from-scratch.adoc[Building a dapp from Scratch].
  * Try it out on the  https://github.com/OpenZeppelin/starter-kit/tree/stable[Starter Kit]: run `openzeppelin unpack starter` and follow the instructions.
  * For detailed usage information, take a look at the xref:api.adoc[API Reference].
