@@ -14,6 +14,16 @@ describe('providers', (): void => {
 
     delete window.ethereum;
   });
+
+  it('returns undefined if no injected provider', async (): Promise<void> => {
+    const injected = providers.tryInjected();
+    expect(injected).toBeUndefined();
+  });
+
+  it('throws if no injected provider', async (): Promise<void> => {
+    expect(() => providers.injected()).toThrow('A web3 provider is not attached to a window.');
+  });
+
   it('create a provider from a connection', async (): Promise<void> => {
     const provider = providers.connection(localConnection);
 

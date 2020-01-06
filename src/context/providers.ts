@@ -12,19 +12,21 @@ export function connection(conn: string): Provider {
   return new Web3(conn).currentProvider;
 }
 
-export function injected(): Provider {
-  // Detect whether the current browser is ethereum-compatible,
-  // and throw an error if it is not
-  if (window.ethereum === undefined) {
-    throw new Error('A web3 provider is not attached to a window.');
-  }
-
+export function tryInjected(): Provider | undefined {
+  // Detect whether the current browser is ethereum-compatible
+  if (window.ethereum === undefined) return undefined;
   const provider = window.ethereum as ExtendedProvider;
 
-  // disable auto refresh if possible
+  // Disable auto refresh if possible
   if (provider.autoRefreshOnNetworkChange === true) {
     provider.autoRefreshOnNetworkChange = false;
   }
 
+  return provider;
+}
+
+export function injected(): Provider {
+  const provider = tryInjected();
+  if (!provider) throw new Error('A web3 provider is not attached to a window.');
   return provider;
 }
