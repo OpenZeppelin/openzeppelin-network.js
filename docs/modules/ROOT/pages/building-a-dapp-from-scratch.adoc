@@ -6,14 +6,14 @@ In this tutorial we will use Network JS to build a React dapp that can be used i
 
 We begin by creating a new project.
 
-```bash
+```console
 $ mkdir web3-dapp && cd web3-dapp
 $ npm init -y
 ```
 
 Then we install Network JS
 
-```bash
+```console
 npm install @openzeppelin/network
 ```
 
@@ -21,7 +21,7 @@ npm install @openzeppelin/network
 
 We will create our dapp using the `create-react-app` package, which bootstraps a simple client-side application using React.
 
-```bash
+```console
 $ npx create-react-app client
 ```
 
@@ -66,7 +66,7 @@ The dapp will display the Ethereum network ID and network name, either of mainne
 
 We use `useWeb3` which attempts to obtain an injected web3 provider first, before falling back to a network connection.  Alternatively we could use `useWeb3Injected` for an injected web3 provider or `useWeb3Network` for a network provider e.g. Infura or a private node.  Dapps can also be configured to use multiple providers if necessary.
 
-NOTE: If you use Infura in your own dapp, you will need to create an account with Infura and setup an Infura Project (with corresponding Infura Project ID).  See https://infura.io[Infura website] to create an account.
+NOTE: If you use Infura in your own dapp, you will need to create an account with Infura and setup an Infura Project (with corresponding Infura Project ID). See https://infura.io[Infura website] to create an account.
 
 == Adding a Component
 
@@ -254,11 +254,11 @@ const web3Context = useWeb3Network(`wss://rinkeby.infura.io/ws/v3/${infuraProjec
 });
 ```
 
-To get started quickly with Network JS and the Gas Station Network you can use the https://docs.openzeppelin.com/starter-kits/2.3/gsnkit[OpenZeppelin GSN Starter Kit].
+To get started quickly with Network JS and the Gas Station Network you can use the xref:starter-kits::gsnkit.adoc[OpenZeppelin GSN Starter Kit].
 
 To unpack the starter kit, run the following inside an empty project directory and follow the instructions.
 
-```bash
+```console
 openzeppelin unpack @openzeppelin/starter-kit-gsn
 ```
 
