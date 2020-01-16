@@ -103,8 +103,8 @@ web3Context.off(Web3Context.ConnectionChangedEventName, updateConnection);
 
 ## Learn More
 
- * Try it out on the  [Starter Kit](https://docs.openzeppelin.com/starter-kits): run `openzeppelin unpack starter` and follow the instructions.
- * For detailed usage information, take a look at the [API Reference](https://docs.openzeppelin/com/network-js/api).
+ * Try it out on the [GSN Starter Kit](https://docs.openzeppelin.com/starter-kits/gsnkit): run `npx @openzeppelin/cli unpack gsn` in a new directory and follow the instructions.
+ * For detailed usage information, take a look at the [API Reference](https://docs.openzeppelin.com/network-js/api).
 
 ## License
 
