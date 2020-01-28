@@ -38,8 +38,9 @@ export function useWeb3Context(provider: Provider, options?: Web3ContextOptions)
   return context;
 }
 
-export function useWeb3Injected(options?: Web3ContextOptions): Web3Context {
-  const [provider] = useState((): Provider => providers.injected());
+export function useWeb3Injected(options?: Web3ContextOptions): Web3Context | undefined {
+  const [provider] = useState((): Provider | undefined => providers.tryInjected());
+  if (!provider) return undefined;
   return useWeb3Context(provider, options);
 }
 
