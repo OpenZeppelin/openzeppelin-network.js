@@ -3,8 +3,12 @@
   "version": "0.3.0",
   "description": "An easy to use and reliable library that provides one line access to Web3 API.",
   "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "files": [
-    "lib"
+    "lib",
+    "!*.test.js",
+    "!*.test.js.map",
+    "!*.test.d.ts"
   ],
   "scripts": {
     "compile": "tsc",
@@ -46,6 +50,7 @@
     "@types/web3": "^1.0.18",
     "@typescript-eslint/eslint-plugin": "^1.9.0",
     "@typescript-eslint/parser": "^1.9.0",
+    "code-style": "git+https://github.com/OpenZeppelin/code-style.git",
     "eslint": "^5.16.0",
     "eslint-config-prettier": "^4.3.0",
     "eslint-plugin-prettier": "^3.1.0",
