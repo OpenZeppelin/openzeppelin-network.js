@@ -1,7 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-const react = __importDefault(require("../lib/react"));
-exports = react;
+const react = require("../lib/react");
+exports.useWeb3Injected = react.useWeb3Injected;
+exports.useWeb3Network = react.useWeb3Network;
+exports.useWeb3 = react.useWeb3;
+exports.useEphemeralKey = react.useEphemeralKey;
