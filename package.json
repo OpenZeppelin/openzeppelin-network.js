@@ -64,7 +64,7 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "@openzeppelin/gsn-provider": "^0.1.5",
+    "@openzeppelin/gsn-provider": "^0.1.10",
     "ethereumjs-wallet": "^0.6.3",
     "fast-deep-equal": "^2.0.1",
     "web3": "^1.2.1"
