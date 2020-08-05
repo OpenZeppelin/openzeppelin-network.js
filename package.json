@@ -15,7 +15,6 @@
     "docs": "oz-docs",
     "docs:watch": "npm run docs watch",
     "lint": "npx tsc --noEmit && eslint 'src/**/*.{js,ts}' --fix",
-    "preinstall": "ln -s ./lib/react ./react",
     "prepare": "npm run compile",
     "test": "jest --verbose",
     "watch": "tsc -w"
