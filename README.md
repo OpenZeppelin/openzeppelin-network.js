@@ -1,4 +1,4 @@
-:warning: This project is in **maintenance mode**. We are no longer actively developing new features, and will only be releasing fixes for high severity issues until July 2020. Read [here](https://forum.openzeppelin.com/t/doubling-down-in-security/2712) for more info, and reach out if you are interested in taking over maintenance. We suggest looking into [web3-react](https://github.com/NoahZinsmeister/web3-react) for a popular alternative to this project.
+:warning: This project is **deprecated**. We are no longer actively developing new features nor addressing issues. Read [here](https://forum.openzeppelin.com/t/doubling-down-in-security/2712) for more info, and reach out if you are interested in taking over maintenance. We suggest looking into [web3-react](https://github.com/NoahZinsmeister/web3-react) for a popular alternative to this project.
 
 # openzeppelin-network.js
 [![CircleCI](https://circleci.com/gh/OpenZeppelin/openzeppelin-network.js.svg?style=shield)](https://circleci.com/gh/OpenZeppelin/openzeppelin-network.js)
